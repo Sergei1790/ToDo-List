@@ -3,9 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Our ToDo List</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
 </head>
 <body>
-    
+    <header class="sund-header">
+        <i class="fal fa-solid fa-check-double"></i>
+        Our ToDo List
+    </header>
+    <sidebar class="sund-sidebar">
+        <div class="sund-sidebar__title">
+            ToDo Control panel
+        </div>
+        <div class="sund-sidebar-ToDo-btns">
+            <button class="sund__btn"><i class="fa-regular fa-calendar"></i>All</button>
+            <button class="sund__btn"><i class="fa-solid fa-calendar-day"></i>Today's</button>
+            <button class="sund__btn"><i class="fa-solid fa-calendar-week"></i>Week</button>
+            <button class="sund__btn">Important</button>
+            <button class="sund__btn"><i class="fa-solid fa-calendar-check"></i>Complete</button>
+        </div>
+        <div class="sund-sidebar__projects">
+            <div class="sund-projects__title">My Projects</div>
+            <button class="add-project sund__btn">Add project</button>
+        </div>
+    </sidebar>
+    <main class="sund-main">
+        <!-- <form class="sund-ToDo__create">
+            <input type="text" placeholder="New ToDo Name">
+            <button type="submit">Create</button>
+        </form> -->
+        <div class="sund-all-projects-container">
+            <div class="sund-all-projects__title">
+                All Projects
+            </div>
+            <div class="sund-all-projects">
+                <div id="project1"></div>
+            </div>
+        </div>
+    </main>
+    <footer class="sund-footer">
+        Created with love by SunD
+    </footer> 
 </body>
 </html>

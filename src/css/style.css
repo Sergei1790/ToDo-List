@@ -1,0 +1,94 @@
+@font-face {
+    font-family: "Font Awesome 5 Pro";
+    font-style: normal;
+    font-weight: 300;
+    font-display: block;
+    src: url(../fonts/fontawesome/fa-light-300.eot);
+    src: url(../fonts/fontawesome/fa-light-300.eot?#iefix) format("embedded-opentype"),
+    url(../fonts/fontawesome/fa-light-300.woff2) format("woff2"),
+    url(../fonts/fontawesome/fa-light-300.woff) format("woff"),
+    url(../fonts/fontawesome/fa-light-300.ttf)
+}
+.fal {
+    font-family: "Font Awesome 5 Pro";
+    font-weight: 300;
+}
+:root{
+    font-size: 14px;
+    --aqua: #00B3BB;
+    --light-aqua: #00E6AA;
+    --light-grey: #F7F7F7;
+    --dark-blue:#2b547d;
+    --white: #fff;
+    --light-grey: #F7F7F7;
+    --dark-grey: #757575;
+}
+body{
+    margin: 0;
+    background-color: var(--white);
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    font-family: 'Roboto', sans-serif;
+    color: var(--dark-grey);
+}
+header, footer{
+    grid-column: 1 / -1;
+    color: #fff;
+    padding: 0 2rem;
+    font: 2rem/2 'Lato', sans-serif;
+}
+.sund-header{
+    background: linear-gradient(90deg, var(--aqua) 0%, var(--light-aqua) 100%);
+}
+.sund__btn{
+    display: flex;
+    padding: 0.8rem 1.6rem;
+    background-color: var(--white);
+    font-size: 17px;
+    color: var(--dark-grey);
+    text-decoration: none;
+    border: 1px solid var(--light-grey);
+    border-radius: 5px;
+    transition: .3s;
+    cursor: pointer;
+    width: 100%;
+    &:hover, &:focus{
+        border: 1px solid var(--aqua);
+        color: var(--aqua);
+    }
+}
+.sund-sidebar{
+    background-color: var(--light-grey);
+    min-height: 80vh;
+    padding: 2rem 1.5rem;
+    .sund-sidebar__title{
+        text-align: center;
+        padding: 0 0 2rem;
+        font: 1.5rem/2 'Lato', sans-serif;
+    }
+    .sund-sidebar-ToDo-btns{
+        display: flex;
+        flex-direction: column;
+        row-gap: 1rem;
+        margin-bottom: 3rem;
+    }
+    .sund-sidebar__projects{
+        .sund-projects__title{
+            text-align: center;
+            padding: 0 0 2rem;
+            font: 1.5rem/2 'Lato', sans-serif;
+        }
+    }
+}
+.sund-all-projects-container{
+    .sund-all-projects__title{
+        font: 2rem/2 'Lato', sans-serif;
+        text-align: center;
+        text-transform: uppercase;
+    }
+}
+.sund-footer{
+    text-align: center;
+    font-size: 1rem;
+    background-color: var(--dark-blue);
+}
