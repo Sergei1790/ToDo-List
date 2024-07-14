@@ -52,6 +52,9 @@ header, footer{
     transition: .3s;
     cursor: pointer;
     width: 100%;
+    i{
+        padding-right: 10px;
+    }
     &:hover, &:focus{
         border: 1px solid var(--aqua);
         color: var(--aqua);

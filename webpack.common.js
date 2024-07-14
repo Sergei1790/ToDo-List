@@ -4,7 +4,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
     // adding entry point for bundler
     entry: {
-        app: './src/js/index.js',
+        index: './src/js/index.js',
+        projects: './src/js/projects.js',
+        tasks: './src/js/tasks.js',
+        DOM: './src/js/DOM.js',
+        handlers: './src/js/handlers.js',
     },
     plugins: [
         // adding options for HtmlWebpackPlugin
