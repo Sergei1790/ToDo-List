@@ -50,7 +50,7 @@
     <footer class="sund-footer">
         Created with love by SunD
     </footer> 
-    <div id="sund-todo-modal">
+    <div id="sund-todo-modal" class="hide">
         <div class="sund-modal-card">
             <div class="sund-modal-header">
                 <h2 class="sund-modal__title">Add Task</h2>
@@ -88,6 +88,10 @@
                             <option value="medium">😅 A bit important</option>
                             <option value="high">😲 Super important!</option>
                         </select>
+                    </div>
+                    <div class="sund-task-btns">
+                        <button class="sund__btn" type="button">Cancel</button>
+                        <button class="sund__btn sund__btn_confirm" type="submit">Add</button>
                     </div>
                 </form>
             </div>

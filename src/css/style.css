@@ -95,3 +95,11 @@ header, footer{
     font-size: 1rem;
     background-color: var(--dark-blue);
 }
+.hide{
+    visibility: hidden;
+    opacity: 0;
+}
+.show{
+    visibility: visible;
+    opacity: 1;
+}

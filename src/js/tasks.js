@@ -5,11 +5,7 @@ function Task(title, description, dueDate, priority){
     this.priority = priority;
 }
 const task1 = new Task('Посидеть', 'Посидеть за столом', 'до завтра', 'срочно');
-function addTask(){
-    
-}
-const addTaskBtn = document.getElementById('sund-add-task');
-addTaskBtn.addEventListener('click', addTask)
+
 
 // Создать модалку для новой задачи 
 // По клику на кнопку открывается окно где задается 4 поля
