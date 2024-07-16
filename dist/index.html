@@ -35,6 +35,9 @@
             <input type="text" placeholder="New ToDo Name">
             <button type="submit">Create</button>
         </form> -->
+        <div id="sund-add-task" class="sund-add-task">
+            Add Task
+        </div>
         <div class="sund-all-projects-container">
             <div class="sund-all-projects__title">
                 All Projects
@@ -47,5 +50,48 @@
     <footer class="sund-footer">
         Created with love by SunD
     </footer> 
+    <div id="sund-todo-modal">
+        <div class="sund-modal-card">
+            <div class="sund-modal-header">
+                <h2 class="sund-modal__title">Add Task</h2>
+                <i class="fal fa-times close-modal close"></i>
+              </div>
+            <div class="sund-modal-content">
+                <form id="sund-task-form" method="post">
+                    <div class="sund-form-field">
+                        <label for="sund-task-title">
+                            Title
+                            <span class="title-star">*</span>
+                        </label>
+                        <input type="text" name="sund-task-title" id="sund-task-title">
+                        <p class="modal-title-error">Please fill out this field.</p>
+                    </div>
+                    <div class="sund-form-field">
+                        <label for="sund-task-desc">
+                            Description
+                        </label>
+                        <textarea class="sund-task-desc" rows="3" cols="36" name="sund-task-desc"></textarea>
+                    </div>
+                    <div class="sund-form-field">
+                        <label for="sund-task-dueDate">
+                            Due Date
+                        </label>
+                        <input type="date" name="sund-task-dueDate" id="sund-task-dueDate">
+                    </div>
+                    <div class="sund-form-field">
+                        <label for="sund-task-desc">
+                            Priority
+                        </label>
+                        <select class="sund-task-priority" name="sund-task-priority">
+                            <option value="" disabled="" selected="">How important is this task?</option>
+                            <option value="low">😴 Not important at all..</option>
+                            <option value="medium">😅 A bit important</option>
+                            <option value="high">😲 Super important!</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 <script defer src="index.bundle.js"></script><script defer src="projects.bundle.js"></script><script defer src="tasks.bundle.js"></script><script defer src="DOM.bundle.js"></script><script defer src="handlers.bundle.js"></script></body>
 </html>
