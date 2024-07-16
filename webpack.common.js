@@ -5,10 +5,6 @@ module.exports = {
     // adding entry point for bundler
     entry: {
         index: './src/js/index.js',
-        projects: './src/js/projects.js',
-        tasks: './src/js/tasks.js',
-        DOM: './src/js/DOM.js',
-        handlers: './src/js/handlers.js',
     },
     plugins: [
         // adding options for HtmlWebpackPlugin
@@ -21,7 +17,8 @@ module.exports = {
     ],
     // adding output point for bundler
     output: {
-        filename: '[name].bundle.js', // [name] for different js files
+        // filename: '[name].bundle.js', // [name] for different js files
+        filename: 'bundle.js', // [name] for different js files
         path: path.resolve(__dirname, 'dist'),
         clean: true, // deleting unused resources in dist folder
     },
@@ -36,14 +33,14 @@ module.exports = {
                 test: /\.(png|svg|jpg|jpeg|gif)$/i,
                 type: 'asset/resource',
                 generator: {
-                    filename: 'assets/images/[hash][ext][query]'
+                    filename: 'assets/images/[hash][ext][query]' //make random names To ensure that browsers load the latest version of a file whenever its content changes.
                 }
             },
             {
                 test: /\.(woff|woff2|eot|ttf|otf)$/i,
                 type: 'asset/resource',
                 generator: {
-                    filename: 'assets/fonts/[hash][ext][query]'
+                    filename: 'assets/fonts/[name][ext]' //retain file names
                 }
             },
         ],
