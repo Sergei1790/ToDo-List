@@ -54,7 +54,7 @@
         <div class="sund-modal-card">
             <div class="sund-modal-header">
                 <h2 class="sund-modal__title">Add Task</h2>
-                <i class="fal fa-times close-modal close"></i>
+                <i class="fal fa-times sund-modal__close"></i>
               </div>
             <div class="sund-modal-content">
                 <form id="sund-task-form" method="post">
@@ -64,7 +64,7 @@
                             <span class="title-star">*</span>
                         </label>
                         <input type="text" name="sund-task-title" id="sund-task-title">
-                        <p class="modal-title-error">Please fill out this field.</p>
+                        <p class="modal-title-error hide">Please fill out this field.</p>
                     </div>
                     <div class="sund-form-field">
                         <label for="sund-task-desc">
@@ -89,9 +89,9 @@
                             <option value="high">😲 Super important!</option>
                         </select>
                     </div>
-                    <div class="sund-task-btns">
-                        <button class="sund__btn" type="button">Cancel</button>
-                        <button class="sund__btn sund__btn_confirm" type="submit">Add</button>
+                    <div class="sund-modal-btns">
+                        <button class="sund-modal__close" type="button">Cancel</button>
+                        <button class="sund-modal__confirm" type="submit">Add</button>
                     </div>
                 </form>
             </div>

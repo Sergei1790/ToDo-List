@@ -1,3 +1,4 @@
+@import '/node_modules/modern-normalize/modern-normalize.css';
 @font-face {
     font-family: "Font Awesome 5 Pro";
     font-style: normal;
@@ -17,11 +18,16 @@
     font-size: 14px;
     --aqua: #00B3BB;
     --light-aqua: #00E6AA;
-    --light-grey: #F7F7F7;
-    --dark-blue:#2b547d;
-    --white: #fff;
+    --dark-aqua: #0E9AA1;
+    --grey: #E6E6E6;
     --light-grey: #F7F7F7;
     --dark-grey: #757575;
+    --white: #FFFFFF;
+    --green: #61B874;
+    --yellow: #E6DB7B;
+    --red: #E67B7B;
+    --dark-red: #C46161;
+    font-size: 16px;
 }
 body{
     margin: 0;
@@ -102,4 +108,92 @@ header, footer{
 .show{
     visibility: visible;
     opacity: 1;
+}
+#sund-todo-modal{
+    background-color: rgba(255, 255, 255, 0.8);
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    top: 0;
+    z-index: 998;
+    transition: all .3s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.sund-modal-card{
+    max-width: 400px;
+    border-radius: 5px;
+    box-shadow: rgba(46, 46, 46, 0.2) 0px 2px 8px 0px;
+    background-color: #fff;
+    .sund-modal-header{
+        display: flex;
+        justify-content: space-between;
+        background: linear-gradient(90deg, var(--aqua) 0%, var(--light-aqua) 100%);
+        color: var(--white);
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+    }
+    .sund-modal__title{
+        margin: 0;
+        padding: 1.5rem;
+    }
+    .sund-modal-content{
+        padding: 2rem 1.5rem;
+    }
+    input, textarea, select{
+        width: 100%;
+        margin: 5px 0 20px 0;
+        padding: 10px;
+        background-color: var(--white);
+        color: var(--dark-grey);
+        border: 1px solid var(--grey);
+        border-radius: 3px;
+        transition: .3s;
+    }
+    .title-star{
+        color: var(--red);
+    }
+    .modal-title-error {
+        margin: -15px 0 20px 0;
+        font-size: 13px;
+        color: var(--red);
+    }
+    .sund-modal-btns{
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid var(--grey);
+        button{
+            padding: .8rem 1rem;
+            cursor: pointer;
+        }
+    }
+    .sund-modal__close {
+        background-color: var(--white);
+        color: var(--dark-grey);
+        border: 1px solid var(--grey);
+        border-radius: 3px;
+        transition: .3s;
+        &:hover,
+        &:focus{
+            color: var(--dark-aqua);
+            border-color: var(--dark-aqua);
+        }
+    }
+    .sund-modal__confirm {
+        margin-left: 10px;
+        background-color: var(--light-aqua);
+        color: var(--white);
+        border: 1px solid transparent;
+        border-radius: 3px;
+        transition: .3s;
+        &:hover,
+        &:focus{
+            background-color: var(--dark-aqua);
+        }
+    }
 }
