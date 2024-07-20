@@ -31,12 +31,20 @@
         </div>
     </sidebar>
     <main class="sund-main">
-        <!-- <form class="sund-ToDo__create">
-            <input type="text" placeholder="New ToDo Name">
-            <button type="submit">Create</button>
-        </form> -->
-        <div id="sund-add-task" class="sund-add-task">
-            Add Task
+        <div id="sund-tasks" class="sund-tasks">
+            <div class="sund-tasks__title">
+                <div>Tasks (<span id="sund-tasks-count">0</span>)</div>
+                <i id="sund-add-task" class="fal fa-plus-circle tooltip-icon">
+                    <span class="add-task tooltip-text">Add New Task</span>
+                </i>
+            </div>
+            <div class="sund-tasks__header">
+                <div class="sund-task-body">Status / Title / Description</div>
+                <div>Due Date</div>
+                <div>Priority</div>
+                <div>Controls</div>
+            </div>
+            <div class="sund-task"><div class="sund-task__complete"><i class="fal fa-circle"></i></div><div class="sund-task-body"><div class="sund-task__title">asd</div><div class="sund-task__desc">asd</div></div><div class="sund-task__duedate">25-07-2024</div><div class="sund-task__priority">medium</div><div class="sund-task__controls"><i class="fal fa-edit edit-task"></i><i class="fal fa-trash-alt delete-task"></i></div></div>
         </div>
         <div class="sund-all-projects-container">
             <div class="sund-all-projects__title">
@@ -54,7 +62,7 @@
         <div class="sund-modal-card">
             <div class="sund-modal-header">
                 <h2 class="sund-modal__title">Add Task</h2>
-                <i class="fal fa-times sund-modal__close"></i>
+                <i class="fal fa-times sund-modal-close"></i>
               </div>
             <div class="sund-modal-content">
                 <form id="sund-task-form" method="post">
@@ -90,8 +98,8 @@
                         </select>
                     </div>
                     <div class="sund-modal-btns">
-                        <button class="sund-modal__close" type="button">Cancel</button>
-                        <button id="sund-modal__confirm" class="sund-modal__confirm" type="button">Add</button>
+                        <button class="sund-modal-close sund-modal-close__btn" type="button">Cancel</button>
+                        <button id="sund-modal-confirm" class="sund-modal-confirm" type="button">Add</button>
                     </div>
                 </form>
             </div>

@@ -22,6 +22,7 @@
     --grey: #E6E6E6;
     --light-grey: #F7F7F7;
     --dark-grey: #757575;
+    --black: #000;
     --white: #FFFFFF;
     --green: #61B874;
     --yellow: #E6DB7B;
@@ -87,6 +88,78 @@ header, footer{
             padding: 0 0 2rem;
             font: 1.5rem/2 'Lato', sans-serif;
         }
+    }
+}
+.sund-tasks{
+    max-width: 1000px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 2rem;
+    .sund-tasks__title{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: .8rem 1.5rem;
+        font-size: 20px;
+        border-bottom: 1px solid var(--dark-grey);
+    }
+    .tooltip-icon {
+        position: relative;
+        cursor: pointer;
+        .tooltip-text {
+            visibility: hidden;
+            position: absolute;
+            bottom: 135%;
+            width: 135px;
+            right: -8px;
+            padding: 10px;
+            background-color: var(--dark-grey);
+            font-family: 'Roboto', sans-serif;
+            font-size: 15px;
+            color: var(--white);
+            text-align: center;
+            border-radius: 5px;
+            font-weight: 400;
+            opacity: 0;
+            transition: opacity .3s;
+            &::after {
+                content: "";
+                position: absolute;
+                top: 100%;
+                left: 85%;
+                margin-left: -4px;
+                border-width: 5px;
+                border-style: solid;
+                border-color: var(--dark-grey) transparent transparent transparent;
+            }
+        }
+        &:hover, &:focus{
+            .tooltip-text{
+                visibility: visible;
+                opacity: 1;
+            }
+        }
+    }
+}
+.sund-task, .sund-tasks__header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    color: var(--black);
+    .sund-task-body{
+        flex-grow: 1;
+    }
+}
+.sund-task{
+    .sund-task__title{
+        font-size: 1.5rem;
+    }
+    .sund-task__controls{
+        display: flex;
+        gap: 1rem;
+        font-size: 1rem;
     }
 }
 .sund-all-projects-container{
@@ -172,7 +245,14 @@ header, footer{
             cursor: pointer;
         }
     }
-    .sund-modal__close {
+    .fa-times.sund-modal-close{
+        margin: 10px 20px;
+        color: var(--white);
+        font-size: 20px;
+        font-weight: 700;
+        cursor: pointer;
+    }
+    .sund-modal-close__btn {
         background-color: var(--white);
         color: var(--dark-grey);
         border: 1px solid var(--grey);
@@ -184,7 +264,7 @@ header, footer{
             border-color: var(--dark-aqua);
         }
     }
-    .sund-modal__confirm {
+    .sund-modal-confirm {
         margin-left: 10px;
         background-color: var(--light-aqua);
         color: var(--white);
