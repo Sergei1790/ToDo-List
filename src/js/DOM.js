@@ -2,14 +2,16 @@ import tasks from './tasks';
 
 // DOM manipulation object 
 export const domManipulation = (() => {
+    const taskWrapper = document.getElementById('sund-tasks');
     const taskModal = document.getElementById('sund-todo-modal');
     const taskModalOpen = document.getElementById('sund-add-task');
     const taskModalClose = document.querySelectorAll(".sund-modal-close");
     const taskModalCard = document.querySelector('.sund-modal-card');
     const taskModalForm = document.getElementById('sund-task-form');
-    const allTasks = document.getElementById('sund-tasks');
+    const allTasks = document.getElementById('sund-tasks-all');
     const confirmTask = document.getElementById('sund-modal-confirm');
     const taskCountDisplay = document.getElementById('sund-tasks-count');
+    const editTaskBtn = document.querySelectorAll('.edit-task');
 
     function toggleModal(show) {
         taskModal.classList.toggle('show', show);
@@ -30,65 +32,75 @@ export const domManipulation = (() => {
         taskModalForm.reset();
     }
     confirmTask.addEventListener('click', () => {
-        const { task, taskCount } = tasks.createTask();
-        showTask(task, taskCount);
+        tasks.createTask();
+        displayTasksInProject();
         clearForm();
         toggleModal(false);
     });
    
-    function showTask(task, taskCount){
-        const taskDisplay = document.createElement('div');
-        const taskBody = document.createElement('div');
-        const taskTitle = document.createElement('div');
-        const taskDescription = document.createElement('div');
-        const taskDueDate = document.createElement('div');
-        const taskPriority = document.createElement('div');
-        const taskComplete = document.createElement('div');
-        const taskControls = document.createElement('div');
-        // const taskEdit = document.createElement('div');
-        // const taskDelete = document.createElement('div');
-
-        taskDisplay.classList.add('sund-task');
-        taskBody.classList.add('sund-task-body');
-        taskTitle.classList.add('sund-task__title');
-        taskDescription.classList.add('sund-task__desc');
-        taskDueDate.classList.add('sund-task__duedate');
-        taskPriority.classList.add('sund-task__priority');
-        // taskEdit.classList.add('sund-task__edit');
-        // taskDelete.classList.add('sund-task__delete');
-        taskComplete.classList.add('sund-task__complete');
-        taskControls.classList.add('sund-task__controls');
-
-        taskTitle.textContent = task.title;
-        taskDescription.textContent = task.description;
-        taskDueDate.textContent = task.dueDate;
-        taskPriority.textContent = task.priority;
-        taskComplete.innerHTML = '<i class="fal fa-circle"></i>'
-        taskControls.innerHTML = '<i class="fal fa-edit edit-task"></i><i class="fal fa-trash-alt delete-task"></i>'
+    function displayTasksInProject(){
+        allTasks.innerHTML = '';
+        const taskArray = tasks.taskArray;
         
-        // taskEdit.innerHTML = '<i class="fal fa-edit edit-task"></i>';
-        // taskDelete.innerHTML = '<i class="fal fa-trash-alt delete-task"></i>';
-
-        allTasks.appendChild(taskDisplay);
-        taskDisplay.appendChild(taskComplete);
-        taskDisplay.appendChild(taskBody);
-        taskBody.appendChild(taskTitle);
-        taskBody.appendChild(taskDescription);
-        taskDisplay.appendChild(taskDueDate);
-        taskDisplay.appendChild(taskPriority);
-        // taskDisplay.appendChild(taskEdit);
-        // taskDisplay.appendChild(taskDelete);
-        taskDisplay.appendChild(taskControls);
-        taskCountDisplay.textContent = taskCount;
+        taskArray.forEach((task, index) => {
+            const taskDisplay = document.createElement('div');
+            const taskBody = document.createElement('div');
+            const taskTitle = document.createElement('div');
+            const taskDescription = document.createElement('div');
+            const taskDueDate = document.createElement('div');
+            const taskPriority = document.createElement('div');
+            const taskComplete = document.createElement('div');
+            const taskControls = document.createElement('div');
+            const taskEdit = document.createElement('i');
+            const taskDelete = document.createElement('i');
+    
+            taskDisplay.classList.add('sund-task');
+            taskDisplay.setAttribute('data-task-index', index);
+            taskBody.classList.add('sund-task-body');
+            taskTitle.classList.add('sund-task__title');
+            taskDescription.classList.add('sund-task__desc');
+            taskDueDate.classList.add('sund-task__duedate');
+            taskPriority.classList.add('sund-task__priority');
+            taskEdit.classList.add('fal', 'fa-edit', 'edit-task');
+            taskEdit.setAttribute('data-task-index', index);
+            taskDelete.classList.add('fal', 'fa-trash-alt', 'delete-task');
+            taskDelete.setAttribute('data-task-index', index);
+            taskComplete.classList.add('sund-task__complete');
+            taskComplete.setAttribute('data-task-index', index);
+            taskControls.classList.add('sund-task__controls');
+    
+            taskTitle.textContent = task.title;
+            taskDescription.textContent = task.description;
+            taskDueDate.textContent = task.dueDate;
+            taskPriority.textContent = task.priority;
+            taskComplete.innerHTML = '<i class="fal fa-circle"></i>'
+    
+            allTasks.appendChild(taskDisplay);
+            taskDisplay.appendChild(taskComplete);
+            taskDisplay.appendChild(taskBody);
+            taskBody.appendChild(taskTitle);
+            taskBody.appendChild(taskDescription);
+            taskDisplay.appendChild(taskDueDate);
+            taskDisplay.appendChild(taskPriority);
+            taskControls.appendChild(taskEdit);
+            taskControls.appendChild(taskDelete);
+            taskDisplay.appendChild(taskControls);
+        });
+        taskCountDisplay.textContent = taskArray.length;       
     }
-
-    function deleteTask(event) {
-        if (event.target.classList.contains('delete-task')) {
-            event.target.closest('.sund-task').remove();
+    
+    function editTask(event) {
+        if (event.target.classList.contains('edit-task')) {
+            event.target.closest('.sund-task')
+            console.log('1sdsdd');
         }
     }
 
-    allTasks.addEventListener('click', deleteTask);
+    allTasks.addEventListener('click', editTask);
+    allTasks.addEventListener('click', tasks.deleteTask);
+    return{
+        displayTasksInProject
+    }
 })();
 
 

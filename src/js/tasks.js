@@ -1,7 +1,8 @@
+import {domManipulation} from './DOM';
 import { format, parseISO } from 'date-fns';
 
 const tasks = (() => {
-    let taskCount = 0;
+    const taskArray = [];
     function Task(title, description, dueDate, priority) {
         this.title = title;
         this.description = description;
@@ -28,11 +29,24 @@ const tasks = (() => {
             formattedDueDate,
             document.getElementById('sund-task-priority').value
         );
-        taskCount++;
-        return {task, taskCount};
+        taskArray.push(task);
+        console.log(taskArray);
+        return task;
+    }
+
+    function deleteTask(event){
+        if (event.target.classList.contains('delete-task')) {
+            const task = event.target.closest('.sund-task');
+            const dataIndex = parseInt(task.getAttribute('data-task-index'), 10);
+            taskArray.splice(dataIndex, 1);
+            console.log(taskArray);
+        }
+        domManipulation.displayTasksInProject();
     }
     return{
-        createTask
+        taskArray,
+        createTask,
+        deleteTask
     }
 
 })();
