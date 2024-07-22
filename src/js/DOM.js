@@ -2,7 +2,6 @@ import tasks from './tasks';
 
 // DOM manipulation object 
 export const domManipulation = (() => {
-    const taskWrapper = document.getElementById('sund-tasks');
     const taskModal = document.getElementById('sund-todo-modal');
     const taskModalOpen = document.getElementById('sund-add-task');
     const taskModalClose = document.querySelectorAll(".sund-modal-close");
@@ -11,13 +10,16 @@ export const domManipulation = (() => {
     const allTasks = document.getElementById('sund-tasks-all');
     const confirmTask = document.getElementById('sund-modal-confirm');
     const taskCountDisplay = document.getElementById('sund-tasks-count');
-    const editTaskBtn = document.querySelectorAll('.edit-task');
 
     function toggleModal(show) {
         taskModal.classList.toggle('show', show);
         taskModal.classList.toggle('hide', !show);
     }
-    taskModalOpen.addEventListener('click', () => toggleModal(true));
+    taskModalOpen.addEventListener('click', () => {
+        document.getElementById('sund-modal__title').textContent = 'Add Task';
+        confirmTask.textContent = 'Add'
+        toggleModal(true)
+    });
 
     taskModal.addEventListener('click', (event) => {
         if (!taskModalCard.contains(event.target)) {
@@ -31,13 +33,33 @@ export const domManipulation = (() => {
     function clearForm() {
         taskModalForm.reset();
     }
+
+    // function createTaskHandler() {
+    //     tasks.createTask();
+    //     displayTasksInProject();
+    //     clearForm();
+    //     toggleModal(false);
+    // }
+
     confirmTask.addEventListener('click', () => {
-        tasks.createTask();
+        console.log(tasks.isCreatingToggler);
+        if (tasks.isCreatingToggler) {
+            tasks.createTask();
+            console.log('CREATE');
+        } else {
+            tasks.updateTask();
+            console.log('EDIT');
+        }
+    
         displayTasksInProject();
         clearForm();
         toggleModal(false);
+    
+        // Reset after operation
+        tasks.currentTaskId = null;
+        
     });
-   
+
     function displayTasksInProject(){
         allTasks.innerHTML = '';
         const taskArray = tasks.taskArray;
@@ -89,17 +111,11 @@ export const domManipulation = (() => {
         taskCountDisplay.textContent = taskArray.length;       
     }
     
-    function editTask(event) {
-        if (event.target.classList.contains('edit-task')) {
-            event.target.closest('.sund-task')
-            console.log('1sdsdd');
-        }
-    }
-
-    allTasks.addEventListener('click', editTask);
+    allTasks.addEventListener('click', tasks.editTask);
     allTasks.addEventListener('click', tasks.deleteTask);
     return{
-        displayTasksInProject
+        displayTasksInProject,
+        toggleModal
     }
 })();
 

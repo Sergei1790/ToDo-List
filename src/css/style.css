@@ -182,7 +182,7 @@ header, footer{
     visibility: visible;
     opacity: 1;
 }
-#sund-todo-modal{
+.sund-todo-modal{
     background-color: rgba(255, 255, 255, 0.8);
     position: absolute;
     left: 0;
