@@ -1,24 +1,18 @@
-import {domManipulation} from './DOM';
+import {domManipulation} from './DOM-iife';
 import { format, parseISO, parse, isValid } from 'date-fns';
 
-class Task {
-    constructor(title, description, dueDate, priority, projectId) {
+const tasks = (() => {
+    let isCreatingToggler = true;
+    let currentTaskId = null; // Track the ID of the task being edited
+    const taskArray = [];
+    function Task(title, description, dueDate, priority, projectId) {
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
         this.priority = priority;
         this.projectId = projectId;
     }
-}
-
-class TaskManager {
-    constructor() {
-        this.isCreatingToggler = true;
-        this.currentTaskId = null;
-        this.taskArray = [];
-    }
-
-    createTask() {
+    function createTask() {
         const dueDateInput = document.getElementById('sund-task-dueDate').value;
         let formattedDueDate;
 
@@ -38,54 +32,57 @@ class TaskManager {
             formattedDueDate,
             document.getElementById('sund-task-priority').value
         );
-        this.taskArray.push(task);
-        console.log(this.taskArray);
+        taskArray.push(task);
+        console.log(taskArray);
         return task;
     }
 
-    deleteTask(event) {
+    function deleteTask(event){
         if (event.target.classList.contains('delete-task')) {
             const task = event.target.closest('.sund-task');
             const dataIndex = parseInt(task.getAttribute('data-task-index'), 10);
-            this.taskArray.splice(dataIndex, 1);
-            console.log(this.taskArray);
+            taskArray.splice(dataIndex, 1);
+            console.log(taskArray);
         }
         domManipulation.displayTasksInProject();
     }
-
-    editTask(event) {
+   
+    function editTask(event){
         if (event.target.classList.contains('edit-task')) {
-            this.isCreatingToggler = false;
-            console.log(`Entering Edit Mode: isCreatingToggler = ${this.isCreatingToggler}`);
+            isCreatingToggler = false;
+            console.log(`Entering Edit Mode: isCreatingToggler = ${isCreatingToggler}`);
+            // catching task
             const task = event.target.closest('.sund-task');
-            this.currentTaskId = parseInt(task.getAttribute('data-task-index'), 10);
+            currentTaskId = parseInt(task.getAttribute('data-task-index'), 10);
 
             document.getElementById('sund-modal__title').textContent = 'Edit Task';
             document.getElementById('sund-modal-confirm').textContent = 'Confirm';
             domManipulation.toggleModal(true);
+            
 
-            document.getElementById('sund-task-title').value = this.taskArray[this.currentTaskId].title;
-            document.getElementById('sund-task-desc').value = this.taskArray[this.currentTaskId].description;
+            document.getElementById('sund-task-title').value = taskArray[currentTaskId].title;
+            document.getElementById('sund-task-desc').value = taskArray[currentTaskId].description;
 
             const dueDateInput = document.getElementById('sund-task-dueDate');
-            if (this.taskArray[this.currentTaskId].dueDate !== 'No Due Date') {
-                const parsedDate = parse(this.taskArray[this.currentTaskId].dueDate, 'dd.MM.yyyy', new Date());
+            if (taskArray[currentTaskId].dueDate !== 'No Due Date') {
+                // Parse the date stored as 'dd.MM.yyyy'
+                const parsedDate = parse(taskArray[currentTaskId].dueDate, 'dd.MM.yyyy', new Date());
                 if (isValid(parsedDate)) {
+                    // Format the parsed date to 'yyyy-MM-dd' for the input field
                     const formattedDate = format(parsedDate, 'yyyy-MM-dd');
                     document.getElementById('sund-task-dueDate').value = formattedDate;
                 } else {
-                    console.error('Invalid date:', this.taskArray[this.currentTaskId].dueDate);
+                    console.error('Invalid date:', taskArray[currentTaskId].dueDate);
                     dueDateInput.value = '';
                 }
             } else {
                 dueDateInput.value = '';
             }
-            document.getElementById('sund-task-priority').value = this.taskArray[this.currentTaskId].priority;
+            document.getElementById('sund-task-priority').value = taskArray[currentTaskId].priority;
         }
     }
-
-    updateTask() {
-        const task = this.taskArray[this.currentTaskId];
+    function updateTask() {
+        const task = taskArray[currentTaskId];
         task.title = document.getElementById('sund-task-title').value;
         task.description = document.getElementById('sund-task-desc').value;
 
@@ -107,11 +104,20 @@ class TaskManager {
         task.priority = document.getElementById('sund-task-priority').value;
 
         console.log('Task Updated:', task);
-        console.log('Task Array:', this.taskArray);
-        this.isCreatingToggler = true;
+        console.log('Task Array:', taskArray);
+        isCreatingToggler = true;
     }
-}
 
-const tasks = new TaskManager();
+
+    return{
+        taskArray,
+        isCreatingToggler,
+        createTask,
+        deleteTask,
+        editTask,
+        updateTask,
+        getToggler
+    }
+
+})();
 export default tasks;
-
