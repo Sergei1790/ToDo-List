@@ -83,26 +83,33 @@ header, footer{
         margin-bottom: 3rem;
     }
     .sund-sidebar__projects{
-        .sund-projects__title{
-            text-align: center;
-            padding: 0 0 2rem;
-            font: 1.5rem/2 'Lato', sans-serif;
+        .sund-all-projects{
+            display: flex;
+            flex-direction: column;
+            row-gap: 1rem;
+            margin: 1rem 0;
+            .sund-project{
+                justify-content: space-between;
+            }
         }
     }
+}
+#sund-project-form{
+    display: none;
 }
 .sund-tasks{
     max-width: 1000px;
     width: 100%;
     margin: 0 auto;
     padding: 2rem;
-    .sund-tasks__title{
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: .8rem 1.5rem;
-        font-size: 20px;
-        border-bottom: 1px solid var(--dark-grey);
-    }
+}
+.sund-todo__title{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: .8rem 1.5rem;
+    font-size: 20px;
+    border-bottom: 1px solid var(--dark-grey);
     .tooltip-icon {
         position: relative;
         cursor: pointer;

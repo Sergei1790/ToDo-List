@@ -25,17 +25,22 @@
             <button class="sund__btn"><i class="fal fa-calendar-check"></i>Complete</button>
         </div>
         <div class="sund-sidebar__projects">
-            <div class="sund-projects__title">My Projects</div>
-            <div class="sund-all-projects"></div>
-            <button class="add-project sund__btn"><i class="fal fa-tools"></i>Add project</button>
+            <div class="sund-todo__title">
+                <div>Projects (<span id="sund-projects-count">0</span>)</div>
+                <i class="sund-add-project fal fa-plus-circle tooltip-icon">
+                    <span class="tooltip-text">Add New Project</span>
+                </i>
+            </div>
+            <div id="sund-all-projects" class="sund-all-projects"></div>
+            <button class="sund-add-project sund__btn"><i class="fal fa-tools"></i>Add project</button>
         </div>
     </sidebar>
     <main class="sund-main">
         <div id="sund-tasks" class="sund-tasks">
-            <div class="sund-tasks__title">
+            <div class="sund-todo__title">
                 <div>Tasks (<span id="sund-tasks-count">0</span>)</div>
                 <i id="sund-add-task" class="fal fa-plus-circle tooltip-icon">
-                    <span class="add-task tooltip-text">Add New Task</span>
+                    <span class="tooltip-text">Add New Task</span>
                 </i>
             </div>
             <div class="sund-tasks__header">
@@ -67,6 +72,20 @@
                 <i class="fal fa-times sund-modal-close"></i>
               </div>
             <div class="sund-modal-content">
+                <form id="sund-project-form" method="post">
+                    <div class="sund-form-field">
+                        <label for="sund-project-title">
+                            Title
+                            <span class="title-star">*</span>
+                        </label>
+                        <input type="text" name="sund-project-title" id="sund-project-title">
+                        <p class="modal-title-error hide">Please fill out this field.</p>
+                    </div>
+                    <div class="sund-modal-btns">
+                        <button class="sund-modal-close sund-modal-close__btn" type="button">Cancel</button>
+                        <button id="sund-project-form-confirm" class="sund-modal-confirm" type="button"></button>
+                    </div>
+                </form>
                 <form id="sund-task-form" method="post">
                     <div class="sund-form-field">
                         <label for="sund-task-title">

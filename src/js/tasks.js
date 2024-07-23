@@ -1,13 +1,18 @@
 import {domManipulation} from './DOM';
+import {Project, defaultProject} from './projects';
 import { format, parseISO, parse, isValid } from 'date-fns';
 
 class Task {
-    constructor(title, description, dueDate, priority, projectId) {
+    constructor(title, description, dueDate, priority, project = defaultProject) {
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
         this.priority = priority;
-        this.projectId = projectId;
+        // Checking whether project is an instance of the Project class before accessing project.id
+        this.projectId = project instanceof Project ? project.id : project;
+        // simpler ->
+        // this.projectId = project.id;
+        
     }
 }
 
@@ -15,6 +20,7 @@ class TaskManager {
     constructor() {
         this.isCreatingToggler = true;
         this.currentTaskId = null;
+        // this.taskArray = defaultProject;
         this.taskArray = [];
     }
 
@@ -56,7 +62,6 @@ class TaskManager {
     editTask(event) {
         if (event.target.classList.contains('edit-task')) {
             this.isCreatingToggler = false;
-            console.log(`Entering Edit Mode: isCreatingToggler = ${this.isCreatingToggler}`);
             const task = event.target.closest('.sund-task');
             this.currentTaskId = parseInt(task.getAttribute('data-task-index'), 10);
 
@@ -113,5 +118,5 @@ class TaskManager {
 }
 
 const tasks = new TaskManager();
-export default tasks;
+export {Task, tasks};
 

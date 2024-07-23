@@ -1,5 +1,5 @@
-import tasks from './tasks';
-
+import {Task, tasks} from './tasks';
+import {Project, defaultProject} from './projects';
 class DomManipulation {
     constructor() {
         this.taskModal = document.getElementById('sund-todo-modal');
@@ -11,10 +11,17 @@ class DomManipulation {
         this.confirmTask = document.getElementById('sund-modal-confirm');
         this.taskCountDisplay = document.getElementById('sund-tasks-count');
 
+        this.projectModalOpen = document.querySelectorAll(".sund-add-project");
+        this.projectModalForm = document.getElementById('sund-project-form');
+        this.projectCountDisplay = document.getElementById('sund-projects-count');
+        this.allProjectsDisplay = document.getElementById('sund-all-projects');
+
         this.init();
     }
 
     init() {
+
+        // TASKS
         this.taskModalOpen.addEventListener('click', () => {
             document.getElementById('sund-modal__title').textContent = 'Add Task';
             this.confirmTask.textContent = 'Add';
@@ -55,7 +62,45 @@ class DomManipulation {
                 tasks.deleteTask(event);
             }
         });
+
+        // PROJECTS
+        this.projectModalOpen.forEach(taskModalCloseEl => {
+            taskModalCloseEl.addEventListener('click', () => {
+                document.getElementById('sund-modal__title').textContent = 'Add Project';
+                document.getElementById('sund-project-form-confirm').textContent = 'Add';
+                this.taskModalForm.style.display = 'none';
+                this.projectModalForm.style.display = 'block';
+                this.toggleModal(true);
+            });
+        });
+
+        this.allProjectsDisplay.addEventListener('click', (event) => {
+            if (event.target.classList.contains('edit-project')) {
+                // Project.editProject(event);
+                this.handleEditProject(event);
+            }
+            
+            // if (event.target.classList.contains('delete-project')) {
+            //     Project.deleteProject(event);
+            // }
+        });
+        
     }
+    // handleEditProject(event) {
+    //     // Find the project that corresponds to the clicked element
+    //     const projectElement = event.target.closest('.sund-project');
+    //     const projectId = projectElement.getAttribute('data-project-id'); // Assuming each project element has a unique ID
+
+    //     // Find the corresponding Project instance
+    //     const project = Project.allProjects.find(p => p.id === projectId);
+
+    //     if (project) {
+    //         project.editProject(event);
+    //     } else {
+    //         console.error('Project not found for ID:', projectId);
+    //     }
+    // }
+
 
     toggleModal(show) {
         this.taskModal.classList.toggle('show', show);
@@ -65,7 +110,31 @@ class DomManipulation {
     clearForm() {
         this.taskModalForm.reset();
     }
+    displayProjects(){
+        const allProjects = Project.allProjects;
+        allProjects.forEach((project, index) => {
+            const projectDisplay = document.createElement('div');
+            const projectBody = document.createElement('div');
+            const projectControls = document.createElement('div');
+            const projectEdit = document.createElement('i');
+            const projectDelete = document.createElement('i');
 
+            projectDisplay.classList.add('sund-project', 'sund__btn');
+            projectBody.classList.add('sund-project-title');
+            projectControls.classList.add('sund-project-controls');
+            projectEdit.classList.add('fal', 'fa-edit', 'edit-project');
+            projectDelete.classList.add('fal', 'fa-trash-alt', 'delete-project');
+            projectBody.textContent = project.name;
+
+            this.allProjectsDisplay.appendChild(projectDisplay);
+            projectDisplay.setAttribute('data-project-index', index);
+            projectDisplay.appendChild(projectBody);
+            projectDisplay.appendChild(projectControls);
+            projectControls.appendChild(projectEdit);
+            projectControls.appendChild(projectDelete);
+        });
+        this.projectCountDisplay.textContent = allProjects.length;
+    }
     displayTasksInProject() {
         this.allTasks.innerHTML = '';
         const taskArray = tasks.taskArray;
