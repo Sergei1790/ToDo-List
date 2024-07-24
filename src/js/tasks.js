@@ -1,5 +1,5 @@
 import {domManipulation} from './DOM';
-import {Project, defaultProject} from './projects';
+import {Project, ProjectManager, defaultProject} from './projects';
 import { format, parseISO, parse, isValid } from 'date-fns';
 
 class Task {
@@ -18,9 +18,7 @@ class Task {
 
 class TaskManager {
     constructor() {
-        this.isCreatingToggler = true;
-        this.currentTaskId = null;
-        // this.taskArray = defaultProject;
+        this.currentTaskIndex = null;
         this.taskArray = [];
     }
 
@@ -50,47 +48,35 @@ class TaskManager {
     }
 
     deleteTask(event) {
-        if (event.target.classList.contains('delete-task')) {
-            const task = event.target.closest('.sund-task');
-            const dataIndex = parseInt(task.getAttribute('data-task-index'), 10);
-            this.taskArray.splice(dataIndex, 1);
-            console.log(this.taskArray);
-        }
-        domManipulation.displayTasksInProject();
+        this.currentTaskIndex = parseInt(event.target.closest('.sund-task').getAttribute('data-task-index'), 10);
+        this.taskArray.splice(this.currentTaskIndex, 1);
+        console.log(this.taskArray);
     }
 
     editTask(event) {
-        if (event.target.classList.contains('edit-task')) {
-            this.isCreatingToggler = false;
-            const task = event.target.closest('.sund-task');
-            this.currentTaskId = parseInt(task.getAttribute('data-task-index'), 10);
+        this.currentTaskIndex = parseInt(event.target.closest('.sund-task').getAttribute('data-task-index'), 10);
 
-            document.getElementById('sund-modal__title').textContent = 'Edit Task';
-            document.getElementById('sund-modal-confirm').textContent = 'Confirm';
-            domManipulation.toggleModal(true);
+        document.getElementById('sund-task-title').value = this.taskArray[this.currentTaskIndex].title;
+        document.getElementById('sund-task-desc').value = this.taskArray[this.currentTaskIndex].description;
 
-            document.getElementById('sund-task-title').value = this.taskArray[this.currentTaskId].title;
-            document.getElementById('sund-task-desc').value = this.taskArray[this.currentTaskId].description;
-
-            const dueDateInput = document.getElementById('sund-task-dueDate');
-            if (this.taskArray[this.currentTaskId].dueDate !== 'No Due Date') {
-                const parsedDate = parse(this.taskArray[this.currentTaskId].dueDate, 'dd.MM.yyyy', new Date());
-                if (isValid(parsedDate)) {
-                    const formattedDate = format(parsedDate, 'yyyy-MM-dd');
-                    document.getElementById('sund-task-dueDate').value = formattedDate;
-                } else {
-                    console.error('Invalid date:', this.taskArray[this.currentTaskId].dueDate);
-                    dueDateInput.value = '';
-                }
+        const dueDateInput = document.getElementById('sund-task-dueDate');
+        if (this.taskArray[this.currentTaskIndex].dueDate !== 'No Due Date') {
+            const parsedDate = parse(this.taskArray[this.currentTaskIndex].dueDate, 'dd.MM.yyyy', new Date());
+            if (isValid(parsedDate)) {
+                const formattedDate = format(parsedDate, 'yyyy-MM-dd');
+                document.getElementById('sund-task-dueDate').value = formattedDate;
             } else {
+                console.error('Invalid date:', this.taskArray[this.currentTaskIndex].dueDate);
                 dueDateInput.value = '';
             }
-            document.getElementById('sund-task-priority').value = this.taskArray[this.currentTaskId].priority;
+        } else {
+            dueDateInput.value = '';
         }
+        document.getElementById('sund-task-priority').value = this.taskArray[this.currentTaskIndex].priority;
     }
 
     updateTask() {
-        const task = this.taskArray[this.currentTaskId];
+        const task = this.taskArray[this.currentTaskIndex];
         task.title = document.getElementById('sund-task-title').value;
         task.description = document.getElementById('sund-task-desc').value;
 
@@ -113,7 +99,6 @@ class TaskManager {
 
         console.log('Task Updated:', task);
         console.log('Task Array:', this.taskArray);
-        this.isCreatingToggler = true;
     }
 }
 

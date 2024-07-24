@@ -1,9 +1,10 @@
 import {Task, tasks} from './tasks';
-import {Project, defaultProject} from './projects';
+import {Project, ProjectManager, defaultProject} from './projects';
 class DomManipulation {
     constructor() {
+        this.taskMode;
         this.taskModal = document.getElementById('sund-todo-modal');
-        this.taskModalOpen = document.getElementById('sund-add-task');
+        this.taskAdd = document.getElementById('sund-add-task');
         this.taskModalClose = document.querySelectorAll(".sund-modal-close");
         this.taskModalCard = document.querySelector('.sund-modal-card');
         this.taskModalForm = document.getElementById('sund-task-form');
@@ -11,95 +12,112 @@ class DomManipulation {
         this.confirmTask = document.getElementById('sund-modal-confirm');
         this.taskCountDisplay = document.getElementById('sund-tasks-count');
 
-        this.projectModalOpen = document.querySelectorAll(".sund-add-project");
+        this.projectMode;
+        this.addProject = document.querySelectorAll(".sund-add-project");
         this.projectModalForm = document.getElementById('sund-project-form');
         this.projectCountDisplay = document.getElementById('sund-projects-count');
-        this.allProjectsDisplay = document.getElementById('sund-all-projects');
-
+        this.allProjects = document.getElementById('sund-all-projects');
+        this.confirmProject = document.getElementById('sund-project-form-confirm');
         this.init();
     }
 
     init() {
 
         // TASKS
-        this.taskModalOpen.addEventListener('click', () => {
+        this.taskAdd.addEventListener('click', () => {
+            this.taskMode = 'create';
             document.getElementById('sund-modal__title').textContent = 'Add Task';
             this.confirmTask.textContent = 'Add';
             this.toggleModal(true);
         });
 
+  
         this.taskModal.addEventListener('click', (event) => {
             if (!this.taskModalCard.contains(event.target)) {
+                this.clearForm(this.taskModalForm, this.projectModalForm);
                 this.toggleModal(false);
             }
         });
 
         this.taskModalClose.forEach(taskModalCloseEl => {
-            taskModalCloseEl.addEventListener('click', () => this.toggleModal(false));
+            taskModalCloseEl.addEventListener('click', () => {
+                this.clearForm(this.taskModalForm, this.projectModalForm);
+                this.toggleModal(false)
+            });
         });
 
         this.confirmTask.addEventListener('click', () => {
-            console.log(tasks.isCreatingToggler);
-            if (tasks.isCreatingToggler) {
+            console.log(this.taskMode);
+            if (this.taskMode === 'create') {
                 tasks.createTask();
             } else {
                 tasks.updateTask();
             }
 
             this.displayTasksInProject();
-            this.clearForm();
+            this.clearForm(this.taskModalForm);
             this.toggleModal(false);
 
             // Reset after operation
-            tasks.currentTaskId = null;
+            tasks.currentTaskIndex = null;
         });
 
         this.allTasks.addEventListener('click', (event) => {
             if (event.target.classList.contains('edit-task')) {
+                this.taskMode = 'edit';
+                document.getElementById('sund-modal__title').textContent = 'Edit Task';
+                this.confirmTask.textContent = 'Confirm';
+                this.toggleModal(true);
                 tasks.editTask(event);
             }
             if (event.target.classList.contains('delete-task')) {
                 tasks.deleteTask(event);
+                this.displayTasksInProject();
             }
         });
 
         // PROJECTS
-        this.projectModalOpen.forEach(taskModalCloseEl => {
-            taskModalCloseEl.addEventListener('click', () => {
+        this.addProject.forEach(addProjectEl => {
+            addProjectEl.addEventListener('click', () => {
+                this.projectMode = 'create';
                 document.getElementById('sund-modal__title').textContent = 'Add Project';
-                document.getElementById('sund-project-form-confirm').textContent = 'Add';
+                this.confirmProject.textContent = 'Add';
                 this.taskModalForm.style.display = 'none';
                 this.projectModalForm.style.display = 'block';
                 this.toggleModal(true);
             });
         });
 
-        this.allProjectsDisplay.addEventListener('click', (event) => {
+        this.allProjects.addEventListener('click', (event) => {
+            this.taskModalForm.style.display = 'none';
+            this.projectModalForm.style.display = 'block';
             if (event.target.classList.contains('edit-project')) {
-                // Project.editProject(event);
-                this.handleEditProject(event);
+                this.projectMode = 'edit';
+                ProjectManager.editProject(event);
+                document.getElementById('sund-modal__title').textContent = 'Edit Project';
+                this.confirmProject.textContent = 'Confirm';
+                this.toggleModal(true);
             }
-            
-            // if (event.target.classList.contains('delete-project')) {
-            //     Project.deleteProject(event);
-            // }
+            if (event.target.classList.contains('delete-project')) {
+                ProjectManager.deleteProject(event);
+                this.displayProjects();
+            }
+        });
+
+        this.confirmProject.addEventListener('click', (event) => {
+            if (this.projectMode === 'create') {
+                ProjectManager.createProject();
+            } else {
+                ProjectManager.updateProject();
+            }
+
+            this.displayProjects();
+            this.clearForm(this.projectModalForm);
+            this.toggleModal(false);
+
         });
         
     }
-    // handleEditProject(event) {
-    //     // Find the project that corresponds to the clicked element
-    //     const projectElement = event.target.closest('.sund-project');
-    //     const projectId = projectElement.getAttribute('data-project-id'); // Assuming each project element has a unique ID
-
-    //     // Find the corresponding Project instance
-    //     const project = Project.allProjects.find(p => p.id === projectId);
-
-    //     if (project) {
-    //         project.editProject(event);
-    //     } else {
-    //         console.error('Project not found for ID:', projectId);
-    //     }
-    // }
 
 
     toggleModal(show) {
@@ -107,10 +125,11 @@ class DomManipulation {
         this.taskModal.classList.toggle('hide', !show);
     }
 
-    clearForm() {
-        this.taskModalForm.reset();
+    clearForm(...modalForms) {
+        modalForms.forEach(modalForm => modalForm.reset());
     }
     displayProjects(){
+        this.allProjects.innerHTML = '';
         const allProjects = Project.allProjects;
         allProjects.forEach((project, index) => {
             const projectDisplay = document.createElement('div');
@@ -126,7 +145,7 @@ class DomManipulation {
             projectDelete.classList.add('fal', 'fa-trash-alt', 'delete-project');
             projectBody.textContent = project.name;
 
-            this.allProjectsDisplay.appendChild(projectDisplay);
+            this.allProjects.appendChild(projectDisplay);
             projectDisplay.setAttribute('data-project-index', index);
             projectDisplay.appendChild(projectBody);
             projectDisplay.appendChild(projectControls);

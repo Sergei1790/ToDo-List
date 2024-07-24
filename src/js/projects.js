@@ -1,4 +1,5 @@
 import {Task, tasks} from './tasks';
+import {domManipulation} from './DOM';
 class Project{
 
     static allProjects = [];
@@ -15,24 +16,35 @@ class Project{
     displayProject(){
         console.log(this);
     }
-    editProject(event) {
-        console.log('Editing project:', this);
-        // if (event.target.classList.contains('edit-project')) {
-        //     // this.isCreatingToggler = false;
-        //     const project = event.target.closest('.sund-project');
-        //     this.currentprojectId = parseInt(project.getAttribute('data-task-index'), 10);
+    static createProject(){
 
-        //     document.getElementById('sund-modal__title').textContent = 'Edit Project';
-        //     document.getElementById('sund-project-form-confirm').textContent = 'Confirm';
-        //     domManipulation.toggleModal(true);
-
-        //     document.getElementById('sund-project-title').value = this.taskArray[this.currentTaskId].title;
-           
-        // }
     }
+ 
 }
 class ProjectManager{
-
+    constructor() {
+        this.currentProjectIndex = null;
+    }
+    static createProject() {
+        const project = new Project(document.getElementById('sund-project-title').value);
+        return project;
+    }
+    static deleteProject(event) {
+        const currentProjectIndex = parseInt(event.target.closest('.sund-project').getAttribute('data-project-index'), 10);
+        Project.allProjects.splice(currentProjectIndex, 1);
+    }
+    static editProject(event) {
+        this.currentProjectIndex = parseInt(event.target.closest('.sund-project').getAttribute('data-project-index'), 10);
+        const currentProject = Project.allProjects[this.currentProjectIndex];
+        document.getElementById('sund-project-title').value = currentProject.name;
+        console.log('Editing project:', currentProject);
+    }
+    static updateProject() {
+        const currentProject = Project.allProjects[this.currentProjectIndex];
+        currentProject.name = document.getElementById('sund-project-title').value;
+        this.currentProjectIndex = null;
+    }
 }
+
 const defaultProject = new Project('Default Project');
-export { Project, defaultProject };
+export { Project, ProjectManager, defaultProject };
