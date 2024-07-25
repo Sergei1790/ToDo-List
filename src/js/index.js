@@ -10,8 +10,8 @@ if (process.env.NODE_ENV !== 'production') {
 // domManipulation.taskModal()
 const project222 = new Project('sssss');
 const task = new Task('Task Title', 'Task Description', '2024-07-23', 'High');
-console.log(defaultProject);
+console.log(defaultProject.id);
 domManipulation.displayProjects()
-defaultProject.displayProject(); 
+// defaultProject.displayProject(); 
 
 

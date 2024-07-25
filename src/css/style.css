@@ -66,6 +66,13 @@ header, footer{
         border: 1px solid var(--aqua);
         color: var(--aqua);
     }
+    &.active{
+        background-color: var(--aqua);
+        color: var(--white);
+        &:hover, &:focus{
+            background-color: var(--dark-aqua);
+        }
+    }
 }
 .sund-sidebar{
     background-color: var(--light-grey);

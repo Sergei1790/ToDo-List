@@ -2,6 +2,10 @@ import {Task, tasks} from './tasks';
 import {Project, ProjectManager, defaultProject} from './projects';
 class DomManipulation {
     constructor() {
+        this.sidebar = document.getElementById("sund-sidebar");
+        this.button = document.querySelectorAll(".sund__btn");
+
+        
         this.taskMode;
         this.taskModal = document.getElementById('sund-todo-modal');
         this.taskAdd = document.getElementById('sund-add-task');
@@ -22,9 +26,20 @@ class DomManipulation {
     }
 
     init() {
+        this.sidebar.addEventListener('click', (event) => {
+            // Remove 'active' class from all buttons
+            document.querySelectorAll(".sund__btn").forEach(button => {
+                button.classList.remove('active');
+            });
+            // Add 'active' class to the clicked button
+            event.target.closest('.sund__btn').classList.add('active');
+        });
+
 
         // TASKS
         this.taskAdd.addEventListener('click', () => {
+            this.taskModalForm.style.display = 'block';
+            this.projectModalForm.style.display = 'none';
             this.taskMode = 'create';
             document.getElementById('sund-modal__title').textContent = 'Add Task';
             this.confirmTask.textContent = 'Add';
@@ -64,6 +79,8 @@ class DomManipulation {
 
         this.allTasks.addEventListener('click', (event) => {
             if (event.target.classList.contains('edit-task')) {
+                this.taskModalForm.style.display = 'block';
+                this.projectModalForm.style.display = 'none';
                 this.taskMode = 'edit';
                 document.getElementById('sund-modal__title').textContent = 'Edit Task';
                 this.confirmTask.textContent = 'Confirm';
@@ -77,6 +94,9 @@ class DomManipulation {
         });
 
         // PROJECTS
+        document.getElementById('sund-project__title').textContent = defaultProject.name;
+        document.getElementById('sund-project-display').setAttribute('data-project-index', 0);
+
         this.addProject.forEach(addProjectEl => {
             addProjectEl.addEventListener('click', () => {
                 this.projectMode = 'create';
@@ -93,6 +113,8 @@ class DomManipulation {
             this.projectModalForm.style.display = 'block';
             if (event.target.classList.contains('edit-project')) {
                 this.projectMode = 'edit';
+                this.taskModalForm.style.display = 'none';
+                this.projectModalForm.style.display = 'block';
                 ProjectManager.editProject(event);
                 document.getElementById('sund-modal__title').textContent = 'Edit Project';
                 this.confirmProject.textContent = 'Confirm';
@@ -101,6 +123,10 @@ class DomManipulation {
             if (event.target.classList.contains('delete-project')) {
                 ProjectManager.deleteProject(event);
                 this.displayProjects();
+            }
+            if (event.target.closest('.sund-project') && !event.target.classList.contains('delete-project')) {
+                ProjectManager.openProject(event);
+                this.displayTasksInProject();
             }
         });
 
@@ -132,7 +158,7 @@ class DomManipulation {
         this.allProjects.innerHTML = '';
         const allProjects = Project.allProjects;
         allProjects.forEach((project, index) => {
-            const projectDisplay = document.createElement('div');
+            const projectDisplay = document.createElement('button');
             const projectBody = document.createElement('div');
             const projectControls = document.createElement('div');
             const projectEdit = document.createElement('i');
@@ -147,6 +173,7 @@ class DomManipulation {
 
             this.allProjects.appendChild(projectDisplay);
             projectDisplay.setAttribute('data-project-index', index);
+            // projectDisplay.setAttribute('id', project.id);
             projectDisplay.appendChild(projectBody);
             projectDisplay.appendChild(projectControls);
             projectControls.appendChild(projectEdit);
@@ -154,11 +181,12 @@ class DomManipulation {
         });
         this.projectCountDisplay.textContent = allProjects.length;
     }
+
     displayTasksInProject() {
         this.allTasks.innerHTML = '';
-        const taskArray = tasks.taskArray;
-
-        taskArray.forEach((task, index) => {
+        const currentProjectIndex = document.getElementById('sund-project-display').getAttribute('data-project-index');
+        const taskArray = Project.allProjects[currentProjectIndex];
+        taskArray.tasks.forEach((task, index) => {
             const taskDisplay = document.createElement('div');
             const taskBody = document.createElement('div');
             const taskTitle = document.createElement('div');
@@ -178,11 +206,8 @@ class DomManipulation {
             taskDueDate.classList.add('sund-task__duedate');
             taskPriority.classList.add('sund-task__priority');
             taskEdit.classList.add('fal', 'fa-edit', 'edit-task');
-            taskEdit.setAttribute('data-task-index', index);
             taskDelete.classList.add('fal', 'fa-trash-alt', 'delete-task');
-            taskDelete.setAttribute('data-task-index', index);
             taskComplete.classList.add('sund-task__complete');
-            taskComplete.setAttribute('data-task-index', index);
             taskControls.classList.add('sund-task__controls');
 
             taskTitle.textContent = task.title;

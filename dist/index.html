@@ -13,7 +13,7 @@
         <i class="fal fa-solid fa-check-double"></i>
         Our ToDo List
     </header>
-    <sidebar class="sund-sidebar">
+    <sidebar id="sund-sidebar" class="sund-sidebar">
         <div class="sund-sidebar__title">
             ToDo Control panel
         </div>
@@ -36,21 +36,24 @@
         </div>
     </sidebar>
     <main class="sund-main">
-        <div id="sund-tasks" class="sund-tasks">
-            <div class="sund-todo__title">
-                <div>Tasks (<span id="sund-tasks-count">0</span>)</div>
-                <i id="sund-add-task" class="fal fa-plus-circle tooltip-icon">
-                    <span class="tooltip-text">Add New Task</span>
-                </i>
-            </div>
-            <div class="sund-tasks__header">
-                <div class="sund-task-body">Status / Title / Description</div>
-                <div>Due Date</div>
-                <div>Priority</div>
-                <div>Controls</div>
-            </div>
-            <div id="sund-tasks-all" class="sund-tasks-all">
-                <!-- <div class="sund-task"><div class="sund-task__complete"><i class="fal fa-circle"></i></div><div class="sund-task-body"><div class="sund-task__title">asd</div><div class="sund-task__desc">asd</div></div><div class="sund-task__duedate">25-07-2024</div><div class="sund-task__priority">medium</div><div class="sund-task__controls"><i class="fal fa-edit edit-task"></i><i class="fal fa-trash-alt delete-task"></i></div></div> -->
+        <div id="sund-project-display" class="sund-project-display">
+            <div id="sund-project__title" class="sund-project__title"></div>
+            <div id="sund-tasks" class="sund-tasks">
+                <div class="sund-todo__title">
+                    <div>Tasks (<span id="sund-tasks-count">0</span>)</div>
+                    <i id="sund-add-task" class="fal fa-plus-circle tooltip-icon">
+                        <span class="tooltip-text">Add New Task</span>
+                    </i>
+                </div>
+                <div class="sund-tasks__header">
+                    <div class="sund-task-body">Status / Title / Description</div>
+                    <div>Due Date</div>
+                    <div>Priority</div>
+                    <div>Controls</div>
+                </div>
+                <div id="sund-tasks-all" class="sund-tasks-all">
+                    <!-- <div class="sund-task"><div class="sund-task__complete"><i class="fal fa-circle"></i></div><div class="sund-task-body"><div class="sund-task__title">asd</div><div class="sund-task__desc">asd</div></div><div class="sund-task__duedate">25-07-2024</div><div class="sund-task__priority">medium</div><div class="sund-task__controls"><i class="fal fa-edit edit-task"></i><i class="fal fa-trash-alt delete-task"></i></div></div> -->
+                </div>
             </div>
         </div>
         <div class="sund-all-projects-container">

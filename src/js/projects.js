@@ -16,9 +16,6 @@ class Project{
     displayProject(){
         console.log(this);
     }
-    static createProject(){
-
-    }
  
 }
 class ProjectManager{
@@ -43,6 +40,13 @@ class ProjectManager{
         const currentProject = Project.allProjects[this.currentProjectIndex];
         currentProject.name = document.getElementById('sund-project-title').value;
         this.currentProjectIndex = null;
+    }
+    static openProject(event){
+        this.currentProjectIndex = parseInt(event.target.closest('.sund-project').getAttribute('data-project-index'), 10);
+        const currentProject = Project.allProjects[this.currentProjectIndex];
+        document.getElementById('sund-project__title').textContent = currentProject.name;
+        console.log(currentProject.name); 
+        document.getElementById('sund-project-display').setAttribute('data-project-index', this.currentProjectIndex);
     }
 }
 
