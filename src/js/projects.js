@@ -1,7 +1,4 @@
-import {Task, tasks} from './tasks';
-import {domManipulation} from './DOM';
 class Project{
-
     static allProjects = [];
     constructor(name){
         this.name = name;
@@ -14,33 +11,38 @@ class ProjectManager{
     constructor() {
         this.currentProjectIndex = null;
     }
-    static createProject() {
+    createProject() {
         const project = new Project(document.getElementById('sund-project-title').value);
         return project;
     }
-    static deleteProject(event) {
-        const currentProjectIndex = parseInt(event.target.closest('.sund-project').getAttribute('data-project-index'), 10);
-        Project.allProjects.splice(currentProjectIndex, 1);
-    }
-    static editProject(event) {
-        this.currentProjectIndex = parseInt(event.target.closest('.sund-project').getAttribute('data-project-index'), 10);
-        const currentProject = Project.allProjects[this.currentProjectIndex];
-        document.getElementById('sund-project-title').value = currentProject.name;
-        console.log('Editing project:', currentProject);
-    }
-    static updateProject() {
-        const currentProject = Project.allProjects[this.currentProjectIndex];
-        currentProject.name = document.getElementById('sund-project-title').value;
-        this.currentProjectIndex = null;
-    }
-    static openProject(event){
-        this.currentProjectIndex = parseInt(event.target.closest('.sund-project').getAttribute('data-project-index'), 10);
+    openProject(event){
+        this.currentProjectIndex = event.target.closest('.sund-project').getAttribute('data-project-index');
         const currentProject = Project.allProjects[this.currentProjectIndex];
         document.getElementById('sund-project__title').textContent = currentProject.name;
         console.log(currentProject.name); 
         document.getElementById('sund-project-display').setAttribute('data-project-index', this.currentProjectIndex);
     }
+    deleteProject(event) {
+        const currentProjectIndex = parseInt(event.target.closest('.sund-project').getAttribute('data-project-index'), 10);
+        Project.allProjects.splice(currentProjectIndex, 1);
+    }
+    editProject(event) {
+        this.currentProjectIndex = event.target.closest('.sund-project').getAttribute('data-project-index');
+        const currentProject = Project.allProjects[this.currentProjectIndex];
+        document.getElementById('sund-project-title').value = currentProject.name;
+        console.log('Editing project:', currentProject);
+   
+    }
+    updateProject() {
+        const currentProject = Project.allProjects[this.currentProjectIndex];
+        currentProject.name = document.getElementById('sund-project-title').value;
+               
+        if( document.getElementById('sund-project-display').getAttribute('data-project-index') === this.currentProjectIndex){
+            document.getElementById('sund-project__title').textContent = currentProject.name;
+        } 
+    }
 }
 
 const defaultProject = new Project('Default Project');
-export { Project, ProjectManager, defaultProject };
+const projectManager = new ProjectManager();
+export { Project, projectManager, defaultProject };

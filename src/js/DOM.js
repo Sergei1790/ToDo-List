@@ -1,5 +1,5 @@
-import {Task, tasks} from './tasks';
-import {Project, ProjectManager, defaultProject} from './projects';
+import {taskManager} from './tasks';
+import {Project, projectManager, defaultProject} from './projects';
 class DomManipulation {
     constructor() {
         this.sidebar = document.getElementById("sund-sidebar");
@@ -26,7 +26,7 @@ class DomManipulation {
 
     init() {
         this.sidebar.addEventListener('click', (event) => {
-            if (event.target.classList.contains('sund__btn')) {
+            if (event.target.closest('.sund__btn')) {
                 // Remove 'active' class from all buttons
                 document.querySelectorAll(".sund__btn").forEach(button => {
                     button.classList.remove('active');
@@ -35,7 +35,7 @@ class DomManipulation {
                 event.target.closest('.sund__btn').classList.add('active');
             }
         });
-
+       
 
         // TASKS
         this.taskAdd.addEventListener('click', () => {
@@ -66,9 +66,9 @@ class DomManipulation {
             console.log(this.taskMode);
             if(document.getElementById('sund-task-title').value !== ''){
                 if (this.taskMode === 'create') {
-                    tasks.createTask();
+                    taskManager.createTask();
                 } else {
-                    tasks.updateTask();
+                    taskManager.updateTask();
                 }
                 this.displayTasksInProject();
                 this.clearForm(this.taskModalForm);
@@ -87,10 +87,10 @@ class DomManipulation {
                 document.getElementById('sund-modal__title').textContent = 'Edit Task';
                 this.confirmTask.textContent = 'Confirm';
                 this.toggleModal(true);
-                tasks.editTask(event);
+                taskManager.editTask(event);
             }
             if (event.target.classList.contains('delete-task')) {
-                tasks.deleteTask(event);
+                taskManager.deleteTask(event);
                 this.displayTasksInProject();
             }
         });
@@ -117,17 +117,17 @@ class DomManipulation {
                 this.projectMode = 'edit';
                 this.taskModalForm.style.display = 'none';
                 this.projectModalForm.style.display = 'block';
-                ProjectManager.editProject(event);
+                projectManager.editProject(event);
                 document.getElementById('sund-modal__title').textContent = 'Edit Project';
                 this.confirmProject.textContent = 'Confirm';
                 this.toggleModal(true);
             }
             if (event.target.classList.contains('delete-project')) {
-                ProjectManager.deleteProject(event);
+                projectManager.deleteProject(event);
                 this.displayProjects();
             }
-            if (event.target.closest('.sund-project') && !event.target.classList.contains('delete-project')) {
-                ProjectManager.openProject(event);
+            if (event.target.closest('.sund-project') && !event.target.classList.contains('edit-project') && !event.target.classList.contains('delete-project')) {
+                projectManager.openProject(event);
                 this.displayTasksInProject();
             }
         });
@@ -135,9 +135,9 @@ class DomManipulation {
         this.confirmProject.addEventListener('click', () => {
             if(document.getElementById('sund-project-title').value !== ''){
                 if (this.projectMode === 'create') {
-                    ProjectManager.createProject();
+                    projectManager.createProject();
                 } else {
-                    ProjectManager.updateProject();
+                    projectManager.updateProject();
                 }
                 this.projectModalForm.querySelector('.modal-title-error').style.display = 'none';
                 this.displayProjects();
@@ -193,8 +193,8 @@ class DomManipulation {
     displayTasksInProject() {
         this.allTasks.innerHTML = '';
         const currentProjectIndex = document.getElementById('sund-project-display').getAttribute('data-project-index');
-        const taskArray = Project.allProjects[currentProjectIndex];
-        taskArray.tasks.forEach((task, index) => {
+        const taskArray = Project.allProjects[currentProjectIndex].tasks;
+        taskArray.forEach((task, index) => {
             const taskDisplay = document.createElement('div');
             const taskBody = document.createElement('div');
             const taskTitle = document.createElement('div');
@@ -235,7 +235,7 @@ class DomManipulation {
             taskControls.appendChild(taskDelete);
             taskDisplay.appendChild(taskControls);
         });
-        this.taskCountDisplay.textContent = taskArray.tasks.length;
+        this.taskCountDisplay.textContent = taskArray.length;
     }
 }
 

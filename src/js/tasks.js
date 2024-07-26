@@ -1,5 +1,4 @@
-import {domManipulation} from './DOM';
-import {Project, ProjectManager, defaultProject} from './projects';
+import {Project} from './projects';
 import { format, parseISO, parse, isValid } from 'date-fns';
 
 class Task {
@@ -9,7 +8,7 @@ class Task {
         this.dueDate = dueDate;
         this.priority = priority;
 
-        this.projectIndex = parseInt(document.getElementById('sund-project-display').getAttribute('data-project-index'), 10);
+        this.projectIndex = document.getElementById('sund-project-display').getAttribute('data-project-index');
         
         // Checking whether project is an instance of the Project class before accessing project.id
         // this.projectId = project instanceof Project ? project.id : project;
@@ -26,7 +25,12 @@ class TaskManager {
     }
 
     createTask() {
-        this.taskArray = Project.allProjects[document.getElementById('sund-project-display').getAttribute('data-project-index')];
+        // Finding the index of a project where we will add task
+        const dataProjectIndex = document.getElementById('sund-project-display').getAttribute('data-project-index');
+        // Corresponding task array inside project object
+        this.taskArray = Project.allProjects[dataProjectIndex].tasks;
+
+        // Gathering values form inputs of modal and creating task
         const dueDateInput = document.getElementById('sund-task-dueDate').value;
         let formattedDueDate;
         
@@ -47,46 +51,44 @@ class TaskManager {
             document.getElementById('sund-task-priority').value
         );
 
-        // console.log(`TASK ${task}`);
-        // console.log(this.taskArray);
-        this.taskArray.tasks.push(task);
-       
-        
-        console.log(this.taskArray);
-        console.log(Project.allProjects);
+        // Pusjing task in project(with corresponding index) into his tasks array)
+        this.taskArray.push(task);
+
         return task;
     }
 
     deleteTask(event) {
         this.currentTaskIndex = parseInt(event.target.closest('.sund-task').getAttribute('data-task-index'), 10);
-        this.taskArray.tasks.splice(this.currentTaskIndex, 1);
+        this.taskArray.splice(this.currentTaskIndex, 1);
         console.log(this.taskArray);
     }
 
     editTask(event) {
-        this.currentTaskIndex = parseInt(event.target.closest('.sund-task').getAttribute('data-task-index'), 10);
-
-        document.getElementById('sund-task-title').value = this.taskArray.tasks[this.currentTaskIndex].title;
-        document.getElementById('sund-task-desc').value = this.taskArray.tasks[this.currentTaskIndex].description;
-
+        this.currentTaskIndex = event.target.closest('.sund-task').getAttribute('data-task-index');
+        // Populating modal inputs with current task info
+        document.getElementById('sund-task-title').value = this.taskArray[this.currentTaskIndex].title;
+        document.getElementById('sund-task-desc').value = this.taskArray[this.currentTaskIndex].description;
+        
         const dueDateInput = document.getElementById('sund-task-dueDate');
-        if (this.taskArray.tasks[this.currentTaskIndex].dueDate !== 'No Due Date') {
-            const parsedDate = parse(this.taskArray.tasks[this.currentTaskIndex].dueDate, 'dd.MM.yyyy', new Date());
+        if (this.taskArray[this.currentTaskIndex].dueDate !== 'No Due Date') {
+            const parsedDate = parse(this.taskArray[this.currentTaskIndex].dueDate, 'dd.MM.yyyy', new Date());
             if (isValid(parsedDate)) {
                 const formattedDate = format(parsedDate, 'yyyy-MM-dd');
                 document.getElementById('sund-task-dueDate').value = formattedDate;
             } else {
-                console.error('Invalid date:', this.taskArray.tasks[this.currentTaskIndex].dueDate);
+                console.error('Invalid date:', this.taskArray[this.currentTaskIndex].dueDate);
                 dueDateInput.value = '';
             }
         } else {
             dueDateInput.value = '';
         }
-        document.getElementById('sund-task-priority').value = this.taskArray.tasks[this.currentTaskIndex].priority;
+        document.getElementById('sund-task-priority').value = this.taskArray[this.currentTaskIndex].priority;
     }
 
     updateTask() {
-        const task = this.taskArray.tasks[this.currentTaskIndex];
+        const task = this.taskArray[this.currentTaskIndex];
+
+        // Gathering values form inputs of modal and updating existing task
         task.title = document.getElementById('sund-task-title').value;
         task.description = document.getElementById('sund-task-desc').value;
 
@@ -108,10 +110,10 @@ class TaskManager {
         task.priority = document.getElementById('sund-task-priority').value;
 
         console.log('Task Updated:', task);
-        console.log('Task Array:', this.taskArray.tasks);
+        console.log('Task Array:', this.taskArray);
     }
 }
 
-const tasks = new TaskManager();
-export {Task, tasks};
+const taskManager = new TaskManager();
+export {taskManager};
 
