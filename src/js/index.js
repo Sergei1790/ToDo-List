@@ -8,7 +8,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 const project1 = new Project('Project 1');
-// console.log(defaultProject.id);
+// console.log(defaultProject.id); 
 domManipulation.displayProjects()
 
 
