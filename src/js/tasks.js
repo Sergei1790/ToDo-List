@@ -3,7 +3,7 @@ import {Project, ProjectManager, defaultProject} from './projects';
 import { format, parseISO, parse, isValid } from 'date-fns';
 
 class Task {
-    constructor(title, description, dueDate, priority, project = defaultProject) {
+    constructor(title, description, dueDate, priority) {
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
@@ -12,7 +12,7 @@ class Task {
         this.projectIndex = parseInt(document.getElementById('sund-project-display').getAttribute('data-project-index'), 10);
         
         // Checking whether project is an instance of the Project class before accessing project.id
-        this.projectId = project instanceof Project ? project.id : project;
+        // this.projectId = project instanceof Project ? project.id : project;
         // simpler ->
         // this.projectId = project.id;
         
@@ -29,8 +29,6 @@ class TaskManager {
         this.taskArray = Project.allProjects[document.getElementById('sund-project-display').getAttribute('data-project-index')];
         const dueDateInput = document.getElementById('sund-task-dueDate').value;
         let formattedDueDate;
-        // console.log(this.taskArray);
-        // console.log(this.taskArray.tasks);
         
           if (dueDateInput) {
             try {
@@ -48,6 +46,7 @@ class TaskManager {
             formattedDueDate,
             document.getElementById('sund-task-priority').value
         );
+
         // console.log(`TASK ${task}`);
         // console.log(this.taskArray);
         this.taskArray.tasks.push(task);

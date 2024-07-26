@@ -5,18 +5,10 @@ class Project{
     static allProjects = [];
     constructor(name){
         this.name = name;
-        this.id = this.name.trim().toLowerCase().replace(/\s+/g, '-');
+        // this.id = this.name.trim().toLowerCase().replace(/\s+/g, '-');
         this.tasks = [];
         Project.allProjects.push(this);
     }
-    // addTask(title, description, dueDate, priority){
-    //     const task = new Task(title, description, dueDate, priority, this.id);
-    //     this.tasks.push(task);
-    // }
-    displayProject(){
-        console.log(this);
-    }
- 
 }
 class ProjectManager{
     constructor() {

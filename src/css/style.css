@@ -176,13 +176,14 @@ header, footer{
         font-size: 1rem;
     }
 }
-.sund-all-projects-container{
-    .sund-all-projects__title{
-        font: 2rem/2 'Lato', sans-serif;
-        text-align: center;
-        text-transform: uppercase;
-    }
+
+.sund-project__title{
+    font: 2rem/1.5 'Lato', sans-serif;
+    text-align: center;
+    text-transform: capitalize;
+    padding: 2rem;
 }
+
 .sund-footer{
     text-align: center;
     font-size: 1rem;
@@ -246,6 +247,7 @@ header, footer{
         margin: -15px 0 20px 0;
         font-size: 13px;
         color: var(--red);
+        display: none;
     }
     .sund-modal-btns{
         display: flex;

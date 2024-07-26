@@ -7,11 +7,10 @@ import {Task, tasks} from './tasks';
 if (process.env.NODE_ENV !== 'production') {
     console.log('Looks like we are in development mode!');
 }
-// domManipulation.taskModal()
-const project222 = new Project('sssss');
-const task = new Task('Task Title', 'Task Description', '2024-07-23', 'High');
+
+const project1 = new Project('project1');
 console.log(defaultProject.id);
 domManipulation.displayProjects()
-// defaultProject.displayProject(); 
+
 
 

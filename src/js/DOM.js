@@ -3,7 +3,6 @@ import {Project, ProjectManager, defaultProject} from './projects';
 class DomManipulation {
     constructor() {
         this.sidebar = document.getElementById("sund-sidebar");
-        this.button = document.querySelectorAll(".sund__btn");
 
         
         this.taskMode;
@@ -27,12 +26,14 @@ class DomManipulation {
 
     init() {
         this.sidebar.addEventListener('click', (event) => {
-            // Remove 'active' class from all buttons
-            document.querySelectorAll(".sund__btn").forEach(button => {
-                button.classList.remove('active');
-            });
-            // Add 'active' class to the clicked button
-            event.target.closest('.sund__btn').classList.add('active');
+            if (event.target.classList.contains('sund__btn')) {
+                // Remove 'active' class from all buttons
+                document.querySelectorAll(".sund__btn").forEach(button => {
+                    button.classList.remove('active');
+                });
+                // Add 'active' class to the clicked button
+                event.target.closest('.sund__btn').classList.add('active');
+            }
         });
 
 
@@ -63,18 +64,19 @@ class DomManipulation {
 
         this.confirmTask.addEventListener('click', () => {
             console.log(this.taskMode);
-            if (this.taskMode === 'create') {
-                tasks.createTask();
-            } else {
-                tasks.updateTask();
+            if(document.getElementById('sund-task-title').value !== ''){
+                if (this.taskMode === 'create') {
+                    tasks.createTask();
+                } else {
+                    tasks.updateTask();
+                }
+                this.displayTasksInProject();
+                this.clearForm(this.taskModalForm);
+                this.toggleModal(false);
+                this.taskModalForm.querySelector('.modal-title-error').style.display = 'none';
+            } else{
+                this.taskModalForm.querySelector('.modal-title-error').style.display = 'block';
             }
-
-            this.displayTasksInProject();
-            this.clearForm(this.taskModalForm);
-            this.toggleModal(false);
-
-            // Reset after operation
-            tasks.currentTaskIndex = null;
         });
 
         this.allTasks.addEventListener('click', (event) => {
@@ -130,17 +132,20 @@ class DomManipulation {
             }
         });
 
-        this.confirmProject.addEventListener('click', (event) => {
-            if (this.projectMode === 'create') {
-                ProjectManager.createProject();
-            } else {
-                ProjectManager.updateProject();
+        this.confirmProject.addEventListener('click', () => {
+            if(document.getElementById('sund-project-title').value !== ''){
+                if (this.projectMode === 'create') {
+                    ProjectManager.createProject();
+                } else {
+                    ProjectManager.updateProject();
+                }
+                this.projectModalForm.querySelector('.modal-title-error').style.display = 'none';
+                this.displayProjects();
+                this.clearForm(this.projectModalForm);
+                this.toggleModal(false);
+            } else{
+                this.projectModalForm.querySelector('.modal-title-error').style.display = 'block';
             }
-
-            this.displayProjects();
-            this.clearForm(this.projectModalForm);
-            this.toggleModal(false);
-
         });
         
     }
@@ -152,7 +157,10 @@ class DomManipulation {
     }
 
     clearForm(...modalForms) {
-        modalForms.forEach(modalForm => modalForm.reset());
+        modalForms.forEach(modalForm => {
+            modalForm.reset();
+            modalForm.querySelector('.modal-title-error').style.display = 'none';
+        });
     }
     displayProjects(){
         this.allProjects.innerHTML = '';
@@ -227,7 +235,7 @@ class DomManipulation {
             taskControls.appendChild(taskDelete);
             taskDisplay.appendChild(taskControls);
         });
-        this.taskCountDisplay.textContent = taskArray.length;
+        this.taskCountDisplay.textContent = taskArray.tasks.length;
     }
 }
 
