@@ -150,7 +150,6 @@ class DomManipulation {
         
     }
 
-
     toggleModal(show) {
         this.taskModal.classList.toggle('show', show);
         this.taskModal.classList.toggle('hide', !show);
