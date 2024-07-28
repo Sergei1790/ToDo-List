@@ -14,7 +14,10 @@ domManipulation.displayProjects()
 if (storageAvailable("localStorage")) {
    console.log('asdasd');
 } else {
-    // Too bad, no localStorage for us
+    alert('Local Storage is not available 😢😢')
 }
-
-
+if (!localStorage.getItem("bgcolor")) {
+  
+} else {
+  
+}
