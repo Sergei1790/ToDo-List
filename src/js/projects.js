@@ -1,5 +1,6 @@
 class Project{
     static allProjects = [];
+    
     constructor(name){
         this.name = name;
         // this.id = this.name.trim().toLowerCase().replace(/\s+/g, '-');

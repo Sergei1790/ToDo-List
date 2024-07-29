@@ -96,6 +96,7 @@ class DomManipulation {
         });
 
         // PROJECTS
+
         document.getElementById('sund-project__title').textContent = defaultProject.name;
         document.getElementById('sund-project-display').setAttribute('data-project-index', 0);
 
@@ -164,6 +165,8 @@ class DomManipulation {
     displayProjects(){
         this.allProjects.innerHTML = '';
         const allProjects = Project.allProjects;
+        localStorage.setItem('allProjects', JSON.stringify(Project.allProjects));
+        console.log(`In Projects ${localStorage.getItem("allProjects")}`);
         allProjects.forEach((project, index) => {
             const projectDisplay = document.createElement('button');
             const projectBody = document.createElement('div');
@@ -193,6 +196,9 @@ class DomManipulation {
         this.allTasks.innerHTML = '';
         const currentProjectIndex = document.getElementById('sund-project-display').getAttribute('data-project-index');
         const taskArray = Project.allProjects[currentProjectIndex].tasks;
+ 
+        localStorage.setItem('allProjects', JSON.stringify(Project.allProjects));
+
         taskArray.forEach((task, index) => {
             const taskDisplay = document.createElement('div');
             const taskBody = document.createElement('div');

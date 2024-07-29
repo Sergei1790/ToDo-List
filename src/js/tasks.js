@@ -8,7 +8,7 @@ class Task {
         this.dueDate = dueDate;
         this.priority = priority;
 
-        this.projectIndex = document.getElementById('sund-project-display').getAttribute('data-project-index');
+        // this.projectIndex = parseInt(document.getElementById('sund-project-display').getAttribute('data-project-index'), 10);
         
         // Checking whether project is an instance of the Project class before accessing project.id
         // this.projectId = project instanceof Project ? project.id : project;
@@ -53,18 +53,22 @@ class TaskManager {
 
         // Pusjing task in project(with corresponding index) into his tasks array)
         this.taskArray.push(task);
-
         return task;
     }
 
     deleteTask(event) {
+        const currentProjectIndex = event.target.closest('.sund-project-display').getAttribute('data-project-index');
+        this.taskArray = Project.allProjects[currentProjectIndex].tasks;
         this.currentTaskIndex = parseInt(event.target.closest('.sund-task').getAttribute('data-task-index'), 10);
         this.taskArray.splice(this.currentTaskIndex, 1);
         console.log(this.taskArray);
     }
 
     editTask(event) {
+        const currentProjectIndex = event.target.closest('.sund-project-display').getAttribute('data-project-index');
+        this.taskArray = Project.allProjects[currentProjectIndex].tasks;
         this.currentTaskIndex = event.target.closest('.sund-task').getAttribute('data-task-index');
+        console.log('EDITING');
         // Populating modal inputs with current task info
         document.getElementById('sund-task-title').value = this.taskArray[this.currentTaskIndex].title;
         document.getElementById('sund-task-desc').value = this.taskArray[this.currentTaskIndex].description;
