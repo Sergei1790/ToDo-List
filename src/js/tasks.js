@@ -7,7 +7,7 @@ class Task {
         this.description = description;
         this.dueDate = dueDate;
         this.priority = priority;
-
+        // this.status
         // this.projectIndex = parseInt(document.getElementById('sund-project-display').getAttribute('data-project-index'), 10);
         
         // Checking whether project is an instance of the Project class before accessing project.id

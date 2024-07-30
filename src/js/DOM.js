@@ -88,18 +88,18 @@ class DomManipulation {
                 this.confirmTask.textContent = 'Confirm';
                 this.toggleModal(true);
                 taskManager.editTask(event);
-            }
+            } 
             if (event.target.classList.contains('delete-task')) {
                 taskManager.deleteTask(event);
                 this.displayTasksInProject();
             }
+            if (event.target.closest('.sund-task') && !event.target.classList.contains('edit-task') && !event.target.classList.contains('delete-task')) {
+                event.target.closest('.sund-task').classList.toggle('task_completed');
+            }
         });
 
         // PROJECTS
-
-        document.getElementById('sund-project__title').textContent = defaultProject.name;
-        document.getElementById('sund-project-display').setAttribute('data-project-index', 0);
-
+ 
         this.addProject.forEach(addProjectEl => {
             addProjectEl.addEventListener('click', () => {
                 this.projectMode = 'create';
@@ -153,7 +153,6 @@ class DomManipulation {
 
     toggleModal(show) {
         this.taskModal.classList.toggle('show', show);
-        this.taskModal.classList.toggle('hide', !show);
     }
 
     clearForm(...modalForms) {
@@ -206,7 +205,7 @@ class DomManipulation {
             const taskDescription = document.createElement('div');
             const taskDueDate = document.createElement('div');
             const taskPriority = document.createElement('div');
-            const taskComplete = document.createElement('div');
+            const taskComplete = document.createElement('i');
             const taskControls = document.createElement('div');
             const taskEdit = document.createElement('i');
             const taskDelete = document.createElement('i');
@@ -220,14 +219,13 @@ class DomManipulation {
             taskPriority.classList.add('sund-task__priority');
             taskEdit.classList.add('fal', 'fa-edit', 'edit-task');
             taskDelete.classList.add('fal', 'fa-trash-alt', 'delete-task');
-            taskComplete.classList.add('sund-task__complete');
+            taskComplete.classList.add('fal', 'fa-circle', 'sund-task__complete'); 
             taskControls.classList.add('sund-task__controls');
 
             taskTitle.textContent = task.title;
             taskDescription.textContent = task.description;
             taskDueDate.textContent = task.dueDate;
             taskPriority.textContent = task.priority;
-            taskComplete.innerHTML = '<i class="fal fa-circle"></i>';
 
             this.allTasks.appendChild(taskDisplay);
             taskDisplay.appendChild(taskComplete);
