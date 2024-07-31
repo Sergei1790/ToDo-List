@@ -128,21 +128,20 @@ class TaskManager {
         this.taskArray[this.currentTaskIndex].completed = !this.taskArray[this.currentTaskIndex].completed;
         console.log(this.taskArray[this.currentTaskIndex].completed);
     }
+
     allTasks(){
         const allTasks = Project.allProjects.flatMap(project => 
             project.tasks
         );
-        console.log(allTasks);
+        console.log('All Tasks:', allTasks);
     }
 
     todayTasks(){
         const formattedTodayDate  = format(new Date(), 'dd.MM.yyyy');
-        console.log(formattedTodayDate);
-        const allDueDates = Project.allProjects.flatMap(project => 
+        const todayTasks = Project.allProjects.flatMap(project => 
             project.tasks.filter(task => task.dueDate === formattedTodayDate)
         );
-        
-        console.log(allDueDates);
+        console.log('Today Tasks:', todayTasks);
     }
 
     weekTasks(){
@@ -156,8 +155,21 @@ class TaskManager {
                 return isWithinInterval(dueDate, { start: today, end: endDate });
             })
         );
-        
-        console.log(upcomingTasks);
+        console.log('Upcoming Tasks:', upcomingTasks);
+    }
+
+    importantTasks(){
+        const importantTasks = Project.allProjects.flatMap(project => 
+            project.tasks.filter(task => task.priority === 'high')
+        );
+        console.log('Important Tasks:', importantTasks);  
+    }
+
+    completedTasks(){
+        const completedTasks = Project.allProjects.flatMap(project => 
+            project.tasks.filter(task => task.completed === true)
+        );
+        console.log('Completed Tasks:', completedTasks);
     }
 }
 

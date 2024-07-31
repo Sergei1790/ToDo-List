@@ -96,13 +96,15 @@ class DomManipulation {
             }
             if (event.target.closest('.sund-task') && !event.target.classList.contains('edit-task') && !event.target.classList.contains('delete-task')) {
                 taskManager.completeTask(event);
-                event.target.closest('.sund-task').classList.toggle('task_completed');
+                this.displayTasksInProject();
             }
         });
         this.tasksToday.addEventListener('click', () => {
             // taskManager.allTasks()
-            taskManager.todayTasks();
+            // taskManager.todayTasks();
             // taskManager.weekTasks();
+            // taskManager.completedTasks();
+            taskManager.importantTasks();
         })
         
         // PROJECTS
@@ -218,6 +220,9 @@ class DomManipulation {
             const taskDelete = document.createElement('i');
 
             taskDisplay.classList.add('sund-task');
+            if(task.completed){
+                taskDisplay.classList.add('task_completed');
+            } 
             taskDisplay.setAttribute('data-task-index', index);
             taskBody.classList.add('sund-task-body');
             taskTitle.classList.add('sund-task__title');
