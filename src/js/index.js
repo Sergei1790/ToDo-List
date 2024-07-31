@@ -23,9 +23,10 @@ if (storedProjects) {
 }
 
 // Initial project display
-domManipulation.displayProjects()
+domManipulation.displayProjects();
 
 // Initial selecting default project to display when visiting page
 window.onload = () => {
     document.querySelector('.sund-project[data-project-index="0"]').click();
 };
+

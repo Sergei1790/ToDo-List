@@ -1,5 +1,5 @@
 import {Project} from './projects';
-import { format, parseISO, parse, isValid } from 'date-fns';
+import { format, parseISO, parse, isValid, addDays, isWithinInterval } from 'date-fns';
 
 class Task {
     constructor(title, description, dueDate, priority) {
@@ -7,6 +7,7 @@ class Task {
         this.description = description;
         this.dueDate = dueDate;
         this.priority = priority;
+        this.completed = false;
         // this.status
         // this.projectIndex = parseInt(document.getElementById('sund-project-display').getAttribute('data-project-index'), 10);
         
@@ -53,6 +54,7 @@ class TaskManager {
 
         // Pusjing task in project(with corresponding index) into his tasks array)
         this.taskArray.push(task);
+        console.log(task);
         return task;
     }
 
@@ -75,6 +77,7 @@ class TaskManager {
         
         const dueDateInput = document.getElementById('sund-task-dueDate');
         if (this.taskArray[this.currentTaskIndex].dueDate !== 'No Due Date') {
+            // convert string into Date object
             const parsedDate = parse(this.taskArray[this.currentTaskIndex].dueDate, 'dd.MM.yyyy', new Date());
             if (isValid(parsedDate)) {
                 const formattedDate = format(parsedDate, 'yyyy-MM-dd');
@@ -115,6 +118,46 @@ class TaskManager {
 
         console.log('Task Updated:', task);
         console.log('Task Array:', this.taskArray);
+    }
+
+    completeTask(event){
+        const currentProjectIndex = event.target.closest('.sund-project-display').getAttribute('data-project-index');
+        this.taskArray = Project.allProjects[currentProjectIndex].tasks;
+        this.currentTaskIndex = parseInt(event.target.closest('.sund-task').getAttribute('data-task-index'), 10);
+        // Toggle the completed property
+        this.taskArray[this.currentTaskIndex].completed = !this.taskArray[this.currentTaskIndex].completed;
+        console.log(this.taskArray[this.currentTaskIndex].completed);
+    }
+    allTasks(){
+        const allTasks = Project.allProjects.flatMap(project => 
+            project.tasks
+        );
+        console.log(allTasks);
+    }
+
+    todayTasks(){
+        const formattedTodayDate  = format(new Date(), 'dd.MM.yyyy');
+        console.log(formattedTodayDate);
+        const allDueDates = Project.allProjects.flatMap(project => 
+            project.tasks.filter(task => task.dueDate === formattedTodayDate)
+        );
+        
+        console.log(allDueDates);
+    }
+
+    weekTasks(){
+        const today = new Date();
+        const endDate = addDays(today, 6);
+
+        const upcomingTasks = Project.allProjects.flatMap(project =>
+            project.tasks.filter(task => {
+                // Parse the dueDate from string to Date object
+                const dueDate = parse(task.dueDate, 'dd.MM.yyyy', new Date());
+                return isWithinInterval(dueDate, { start: today, end: endDate });
+            })
+        );
+        
+        console.log(upcomingTasks);
     }
 }
 

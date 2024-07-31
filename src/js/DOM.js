@@ -14,7 +14,8 @@ class DomManipulation {
         this.allTasks = document.getElementById('sund-tasks-all');
         this.confirmTask = document.getElementById('sund-modal-confirm');
         this.taskCountDisplay = document.getElementById('sund-tasks-count');
-
+        this.tasksToday = document.getElementById('sund-tasks-today');
+        
         this.projectMode;
         this.addProject = document.querySelectorAll(".sund-add-project");
         this.projectModalForm = document.getElementById('sund-project-form');
@@ -94,10 +95,16 @@ class DomManipulation {
                 this.displayTasksInProject();
             }
             if (event.target.closest('.sund-task') && !event.target.classList.contains('edit-task') && !event.target.classList.contains('delete-task')) {
+                taskManager.completeTask(event);
                 event.target.closest('.sund-task').classList.toggle('task_completed');
             }
         });
-
+        this.tasksToday.addEventListener('click', () => {
+            // taskManager.allTasks()
+            taskManager.todayTasks();
+            // taskManager.weekTasks();
+        })
+        
         // PROJECTS
  
         this.addProject.forEach(addProjectEl => {
