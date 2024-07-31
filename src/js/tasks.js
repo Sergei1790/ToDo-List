@@ -130,9 +130,7 @@ class TaskManager {
     }
 
     allTasks(){
-        const allTasks = Project.allProjects.flatMap(project => 
-            project.tasks
-        );
+        const allTasks = Project.allProjects.flatMap(project => project.tasks);
         console.log('All Tasks:', allTasks);
     }
 
