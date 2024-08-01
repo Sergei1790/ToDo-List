@@ -46,4 +46,4 @@ class ProjectManager{
 
 const defaultProject = new Project('Default Project');
 const projectManager = new ProjectManager();
-export { Project, projectManager, defaultProject };
+export { Project, projectManager};
