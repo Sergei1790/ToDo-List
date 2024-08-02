@@ -76,6 +76,12 @@ class DomManipulation {
                 } else {
                     taskManager.updateTask();
                 }
+                // if(!isNaN(document.getElementById('sund-project-display').getAttribute('data-project-index'))){
+                //     this.displayTasksInProject();
+                // } else{
+                //     const tasks = document.getElementById('sund-project-display').getAttribute('data-project-index');
+                //     this.displayTasks(taskManager[tasks]());
+                // }
                 this.displayTasksInProject();
                 this.clearForm(this.taskModalForm);
                 this.toggleModal(false);
@@ -101,11 +107,7 @@ class DomManipulation {
             }
             if (event.target.closest('.sund-task') && !event.target.classList.contains('edit-task') && !event.target.classList.contains('delete-task')) {
                 taskManager.completeTask(event);
-                if(document.getElementById('sund-project-display').getAttribute('data-project-index') <= Project.allProjects.length){
-                    this.displayTasksInProject();
-                } else{
-                    event.target.closest('.sund-task').classList.toggle('task_completed');
-                }
+                this.displayTasksInProject();
             }
         });
         this.tasksShowAll.addEventListener('click', () => {
@@ -282,19 +284,27 @@ class DomManipulation {
     //     this.taskCountDisplay.textContent = taskArray.length;
     // }
     displayTasksInProject() {
-        const currentProjectIndex = document.getElementById('sund-project-display').getAttribute('data-project-index');
-        const taskArray = Project.allProjects[currentProjectIndex].tasks;
- 
+        if(!isNaN(document.getElementById('sund-project-display').getAttribute('data-project-index'))){
+            
+            const currentProjectIndex = document.getElementById('sund-project-display').getAttribute('data-project-index');
+        
+            const taskArray = Project.allProjects[currentProjectIndex].tasks;
+            
+            document.getElementById('sund-add-task').style.display = 'block';
+            this.displayTasks(taskArray);
+        } else{
+            const tasks = document.getElementById('sund-project-display').getAttribute('data-project-index');
+            this.displayTasks(taskManager[tasks]());
+        }
         // To remember added task in project
         localStorage.setItem('allProjects', JSON.stringify(Project.allProjects));
-
-        document.getElementById('sund-add-task').style.display = 'block';
-        this.displayTasks(taskArray);
+   
+        
     }
 
     displayTasks(tasks){
         this.allTasks.innerHTML = '';
-
+        localStorage.setItem('allProjects', JSON.stringify(Project.allProjects));
         tasks.forEach((task, index) => {
             const taskDisplay = document.createElement('div');
             const taskBody = document.createElement('div');
@@ -311,6 +321,7 @@ class DomManipulation {
             if(task.completed){
                 taskDisplay.classList.add('task_completed');
             } 
+            taskDisplay.setAttribute('data-id', task.id);
             taskDisplay.setAttribute('data-task-index', index);
             taskDisplay.setAttribute('data-project-index', task.projectIndex);
             taskBody.classList.add('sund-task-body');

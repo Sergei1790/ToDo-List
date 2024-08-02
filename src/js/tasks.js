@@ -1,5 +1,5 @@
 import {Project} from './projects';
-import { format, parseISO, parse, isValid, addDays, isWithinInterval } from 'date-fns';
+import { format, parseISO, parse, isValid, addDays, startOfDay, endOfDay, isWithinInterval } from 'date-fns';
 
 class Task {
     constructor(title, description, dueDate, priority, projectIndex) {
@@ -9,14 +9,7 @@ class Task {
         this.priority = priority;
         this.completed = false;
         this.projectIndex = projectIndex;
-        // this.status
-        // this.projectIndex = parseInt(document.getElementById('sund-project-display').getAttribute('data-project-index'), 10);
-        
-        // Checking whether project is an instance of the Project class before accessing project.id
-        // this.projectId = project instanceof Project ? project.id : project;
-        // simpler ->
-        // this.projectId = project.id;
-        
+        this.id = this.title.trim().toLowerCase().replace(/\s+/g, '-') + '-' + (Math.floor(Math.random() * 100) + 1);
     }
 }
 
@@ -64,19 +57,30 @@ class TaskManager {
 
     deleteTask(event) {
         // const currentProjectIndex = event.target.closest('.sund-project-display').getAttribute('data-project-index');
+        // this.currentTaskIndex = parseInt(event.target.closest('.sund-task').getAttribute('data-task-index'), 10);
+
         const currentProjectIndex = parseInt(event.target.closest('.sund-task').getAttribute('data-project-index'), 10);
         this.taskArray = Project.allProjects[currentProjectIndex].tasks;
-        this.currentTaskIndex = parseInt(event.target.closest('.sund-task').getAttribute('data-task-index'), 10);
+        
+        const currentTaskId = event.target.closest('.sund-task').getAttribute('data-id');
+        this.currentTaskIndex = this.taskArray.findIndex(task => task.id === currentTaskId);
+
         this.taskArray.splice(this.currentTaskIndex, 1);
         console.log(this.taskArray);
     }
 
     editTask(event) {
         // const currentProjectIndex = event.target.closest('.sund-project-display').getAttribute('data-project-index');
+        // this.currentTaskIndex = parseInt(event.target.closest('.sund-task').getAttribute('data-task-index'), 10);
+        
         const currentProjectIndex = parseInt(event.target.closest('.sund-task').getAttribute('data-project-index'), 10);
         this.taskArray = Project.allProjects[currentProjectIndex].tasks;
-        this.currentTaskIndex = parseInt(event.target.closest('.sund-task').getAttribute('data-task-index'), 10);
         console.log('EDITING',  this.taskArray);
+
+        const currentTaskId = event.target.closest('.sund-task').getAttribute('data-id');
+        this.currentTaskIndex = this.taskArray.findIndex(task => task.id === currentTaskId);
+
+
         // Populating modal inputs with current task info
         document.getElementById('sund-task-title').value = this.taskArray[this.currentTaskIndex].title;
         document.getElementById('sund-task-desc').value = this.taskArray[this.currentTaskIndex].description;
@@ -128,23 +132,28 @@ class TaskManager {
 
     completeTask(event){
         // const currentProjectIndex = event.target.closest('.sund-project-display').getAttribute('data-project-index');
+        // this.currentTaskIndex = parseInt(event.target.closest('.sund-task').getAttribute('data-task-index'), 10);
+       
         const currentProjectIndex = parseInt(event.target.closest('.sund-task').getAttribute('data-project-index'), 10);
         this.taskArray = Project.allProjects[currentProjectIndex].tasks;
-        this.currentTaskIndex = parseInt(event.target.closest('.sund-task').getAttribute('data-task-index'), 10);
+
+        const currentTaskId = event.target.closest('.sund-task').getAttribute('data-id');
+        this.currentTaskIndex = this.taskArray.findIndex(task => task.id === currentTaskId);
+
         // Toggle the completed property
         this.taskArray[this.currentTaskIndex].completed = !this.taskArray[this.currentTaskIndex].completed;
         console.log(this.taskArray[this.currentTaskIndex].completed);
     }
 
     allTasks(){
-        document.getElementById('sund-project-display').setAttribute('data-project-index', Project.allProjects.length + 1);
+        document.getElementById('sund-project-display').setAttribute('data-project-index', 'allTasks');
         const allTasks = Project.allProjects.flatMap(project => project.tasks);
         console.log('All Tasks:', allTasks);
         return allTasks;
     }
 
     todayTasks(){
-        document.getElementById('sund-project-display').setAttribute('data-project-index', Project.allProjects.length + 1);
+        document.getElementById('sund-project-display').setAttribute('data-project-index', 'todayTasks');
         const formattedTodayDate  = format(new Date(), 'dd.MM.yyyy');
         const todayTasks = Project.allProjects.flatMap(project => 
             project.tasks.filter(task => task.dueDate === formattedTodayDate)
@@ -154,9 +163,9 @@ class TaskManager {
     }
 
     weekTasks(){
-        document.getElementById('sund-project-display').setAttribute('data-project-index', Project.allProjects.length + 1);
-        const today = new Date();
-        const endDate = addDays(today, 6);
+        document.getElementById('sund-project-display').setAttribute('data-project-index', 'weekTasks');
+        const today = startOfDay(new Date());
+        const endDate = endOfDay(addDays(today, 6));
 
         const upcomingTasks = Project.allProjects.flatMap(project =>
             project.tasks.filter(task => {
@@ -170,7 +179,7 @@ class TaskManager {
     }
 
     importantTasks(){
-        document.getElementById('sund-project-display').setAttribute('data-project-index', Project.allProjects.length + 1);
+        document.getElementById('sund-project-display').setAttribute('data-project-index', 'importantTasks');
         const importantTasks = Project.allProjects.flatMap(project => 
             project.tasks.filter(task => task.priority === 'high')
         );
@@ -179,7 +188,7 @@ class TaskManager {
     }
 
     completedTasks(){
-        document.getElementById('sund-project-display').setAttribute('data-project-index', Project.allProjects.length + 1);
+        document.getElementById('sund-project-display').setAttribute('data-project-index', 'completedTasks');
         const completedTasks = Project.allProjects.flatMap(project => 
             project.tasks.filter(task => task.completed === true)
         );
