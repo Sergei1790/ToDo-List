@@ -3,8 +3,8 @@ class Project{
     
     constructor(name){
         this.name = name;
-        // this.id = this.name.trim().toLowerCase().replace(/\s+/g, '-');
         this.tasks = [];
+        // after creating instance of project we push it in allProjects
         Project.allProjects.push(this);
     }
 }
@@ -26,24 +26,22 @@ class ProjectManager{
     deleteProject(event) {
         const currentProjectIndex = parseInt(event.target.closest('.sund-project').getAttribute('data-project-index'), 10);
         Project.allProjects.splice(currentProjectIndex, 1);
+        // if (Project.allProjects.length === 0) {
+        //     new Project('Default Project');
+        // }
     }
     editProject(event) {
         this.currentProjectIndex = event.target.closest('.sund-project').getAttribute('data-project-index');
         const currentProject = Project.allProjects[this.currentProjectIndex];
         document.getElementById('sund-project-title').value = currentProject.name;
         console.log('Editing project:', currentProject);
-   
     }
     updateProject() {
         const currentProject = Project.allProjects[this.currentProjectIndex];
         currentProject.name = document.getElementById('sund-project-title').value;
-               
-        if( document.getElementById('sund-project-display').getAttribute('data-project-index') === this.currentProjectIndex){
-            document.getElementById('sund-project__title').textContent = currentProject.name;
-        } 
+        document.getElementById('sund-project__title').textContent = currentProject.name;
     }
 }
 
-const defaultProject = new Project('Default Project');
 const projectManager = new ProjectManager();
 export { Project, projectManager};

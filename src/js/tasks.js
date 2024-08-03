@@ -39,26 +39,23 @@ class TaskManager {
         } else {
             formattedDueDate = 'No Due Date';
         }
+        // If prioprity empty add 'low'
         const priority = document.getElementById('sund-task-priority').value !== '' ? document.getElementById('sund-task-priority').value : 'low'; 
         const task = new Task(
             document.getElementById('sund-task-title').value,
             document.getElementById('sund-task-desc').value,
             formattedDueDate,
-            // document.getElementById('sund-task-priority').value
             priority,
             dataProjectIndex
         );
 
-        // Pusjing task in project(with corresponding index) into his tasks array)
+        // Pushing task in project(with corresponding index) into his tasks array)
         this.taskArray.push(task);
         console.log(task);
         return task;
     }
 
     deleteTask(event) {
-        // const currentProjectIndex = event.target.closest('.sund-project-display').getAttribute('data-project-index');
-        // this.currentTaskIndex = parseInt(event.target.closest('.sund-task').getAttribute('data-task-index'), 10);
-
         const currentProjectIndex = parseInt(event.target.closest('.sund-task').getAttribute('data-project-index'), 10);
         this.taskArray = Project.allProjects[currentProjectIndex].tasks;
         
@@ -70,9 +67,7 @@ class TaskManager {
     }
 
     editTask(event) {
-        // const currentProjectIndex = event.target.closest('.sund-project-display').getAttribute('data-project-index');
-        // this.currentTaskIndex = parseInt(event.target.closest('.sund-task').getAttribute('data-task-index'), 10);
-        
+
         const currentProjectIndex = parseInt(event.target.closest('.sund-task').getAttribute('data-project-index'), 10);
         this.taskArray = Project.allProjects[currentProjectIndex].tasks;
         console.log('EDITING',  this.taskArray);
@@ -87,7 +82,7 @@ class TaskManager {
         
         const dueDateInput = document.getElementById('sund-task-dueDate');
         if (this.taskArray[this.currentTaskIndex].dueDate !== 'No Due Date') {
-            // convert string into Date object
+            // Converting string into Date object
             const parsedDate = parse(this.taskArray[this.currentTaskIndex].dueDate, 'dd.MM.yyyy', new Date());
             if (isValid(parsedDate)) {
                 const formattedDate = format(parsedDate, 'yyyy-MM-dd');
@@ -111,7 +106,6 @@ class TaskManager {
 
         const dueDateInput = document.getElementById('sund-task-dueDate').value;
         let formattedDueDate;
-
         if (dueDateInput) {
             try {
                 formattedDueDate = format(parseISO(dueDateInput), 'dd.MM.yyyy');
@@ -131,9 +125,7 @@ class TaskManager {
     }
 
     completeTask(event){
-        // const currentProjectIndex = event.target.closest('.sund-project-display').getAttribute('data-project-index');
-        // this.currentTaskIndex = parseInt(event.target.closest('.sund-task').getAttribute('data-task-index'), 10);
-       
+
         const currentProjectIndex = parseInt(event.target.closest('.sund-task').getAttribute('data-project-index'), 10);
         this.taskArray = Project.allProjects[currentProjectIndex].tasks;
 
@@ -147,6 +139,7 @@ class TaskManager {
 
     allTasks(){
         document.getElementById('sund-project-display').setAttribute('data-project-index', 'allTasks');
+        // Map gives array of tasks, but we want aonly tasks in it, so we use flatmap to up 1 level
         const allTasks = Project.allProjects.flatMap(project => project.tasks);
         console.log('All Tasks:', allTasks);
         return allTasks;

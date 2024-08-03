@@ -4,7 +4,6 @@ class DomManipulation {
     constructor() {
         this.sidebar = document.getElementById("sund-sidebar");
 
-        
         this.taskMode;
         this.taskModal = document.getElementById('sund-todo-modal');
         this.taskAdd = document.getElementById('sund-add-task');
@@ -27,10 +26,13 @@ class DomManipulation {
         this.projectCountDisplay = document.getElementById('sund-projects-count');
         this.allProjects = document.getElementById('sund-all-projects');
         this.confirmProject = document.getElementById('sund-project-form-confirm');
+
+        // Function fires immediately when an instance of DomManipulation is created
         this.init();
     }
 
     init() {
+        
         this.sidebar.addEventListener('click', (event) => {
             if (event.target.closest('.sund__btn')) {
                 // Remove 'active' class from all buttons
@@ -70,18 +72,13 @@ class DomManipulation {
 
         this.confirmTask.addEventListener('click', () => {
             console.log(this.taskMode);
+            // If we did not add title of task in modal throw error
             if(document.getElementById('sund-task-title').value !== ''){
                 if (this.taskMode === 'create') {
                     taskManager.createTask();
                 } else {
                     taskManager.updateTask();
                 }
-                // if(!isNaN(document.getElementById('sund-project-display').getAttribute('data-project-index'))){
-                //     this.displayTasksInProject();
-                // } else{
-                //     const tasks = document.getElementById('sund-project-display').getAttribute('data-project-index');
-                //     this.displayTasks(taskManager[tasks]());
-                // }
                 this.displayTasksInProject();
                 this.clearForm(this.taskModalForm);
                 this.toggleModal(false);
@@ -114,6 +111,9 @@ class DomManipulation {
             document.getElementById('sund-project__title').textContent = 'All Tasks';
             document.getElementById('sund-add-task').style.display = 'none';
             this.displayTasks(taskManager.allTasks());
+            // or
+            // taskManager.allTasks();
+            // this.displayTasksInProject();
         })
         this.tasksShowToday.addEventListener('click', () => {
             document.getElementById('sund-project__title').textContent = 'Today Tasks';
@@ -133,12 +133,12 @@ class DomManipulation {
         this.tasksShowComplete.addEventListener('click', () => {
             document.getElementById('sund-project__title').textContent = 'Completed Tasks';
             document.getElementById('sund-add-task').style.display = 'none';
-            this.displayTasks(taskManager.completedTasks());
+            this.displayTasks(taskManager.completedTasks());    
         })
 
 
         // PROJECTS
- 
+
         this.addProject.forEach(addProjectEl => {
             addProjectEl.addEventListener('click', () => {
                 this.projectMode = 'create';
@@ -194,8 +194,13 @@ class DomManipulation {
         this.taskModal.classList.toggle('show', show);
     }
 
+    // ... is rest parameter, which means we get array of modalForms
+    //  it can be 1 or 2 or many, used if we can be able to use like
+    // this.clearForm(this.taskModalForm, this.projectModalForm);
+    // or this.clearForm(this.projectModalForm);
     clearForm(...modalForms) {
         modalForms.forEach(modalForm => {
+            // reset clears <form> element, only can be used on <form>, not <div> or other
             modalForm.reset();
             modalForm.querySelector('.modal-title-error').style.display = 'none';
         });
@@ -203,8 +208,14 @@ class DomManipulation {
     displayProjects(){
         this.allProjects.innerHTML = '';
         const allProjects = Project.allProjects;
+
+        // Using localStorage to save Project.allProjects
+        // Storage only supports storing and retrieving strings.
+        //  If we want to save other data types, we have to convert them to strings.
+        //  For plain objects and arrays, we can use JSON.stringify().
         localStorage.setItem('allProjects', JSON.stringify(Project.allProjects));
         console.log(`In Projects ${localStorage.getItem("allProjects")}`);
+        // Index is inbuilt, so we can get number of el in array
         allProjects.forEach((project, index) => {
             const projectDisplay = document.createElement('button');
             const projectBody = document.createElement('div');
@@ -221,7 +232,6 @@ class DomManipulation {
 
             this.allProjects.appendChild(projectDisplay);
             projectDisplay.setAttribute('data-project-index', index);
-            // projectDisplay.setAttribute('id', project.id);
             projectDisplay.appendChild(projectBody);
             projectDisplay.appendChild(projectControls);
             projectControls.appendChild(projectEdit);
@@ -230,82 +240,34 @@ class DomManipulation {
         this.projectCountDisplay.textContent = allProjects.length;
     }
 
-    // displayTasksInProject() {
-    //     this.allTasks.innerHTML = '';
-    //     const currentProjectIndex = document.getElementById('sund-project-display').getAttribute('data-project-index');
-    //     const taskArray = Project.allProjects[currentProjectIndex].tasks;
- 
-    //     // To remember added task in project
-    //     localStorage.setItem('allProjects', JSON.stringify(Project.allProjects));
-
-    //     taskArray.forEach((task, index) => {
-    //         const taskDisplay = document.createElement('div');
-    //         const taskBody = document.createElement('div');
-    //         const taskTitle = document.createElement('div');
-    //         const taskDescription = document.createElement('div');
-    //         const taskDueDate = document.createElement('div');
-    //         const taskPriority = document.createElement('div');
-    //         const taskComplete = document.createElement('i');
-    //         const taskControls = document.createElement('div');
-    //         const taskEdit = document.createElement('i');
-    //         const taskDelete = document.createElement('i');
-
-    //         taskDisplay.classList.add('sund-task');
-    //         if(task.completed){
-    //             taskDisplay.classList.add('task_completed');
-    //         } 
-    //         taskDisplay.setAttribute('data-task-index', index);
-    //         taskBody.classList.add('sund-task-body');
-    //         taskTitle.classList.add('sund-task__title');
-    //         taskDescription.classList.add('sund-task__desc');
-    //         taskDueDate.classList.add('sund-task__duedate');
-    //         taskPriority.classList.add('sund-task__priority');
-    //         taskEdit.classList.add('fal', 'fa-edit', 'edit-task');
-    //         taskDelete.classList.add('fal', 'fa-trash-alt', 'delete-task');
-    //         taskComplete.classList.add('fal', 'fa-circle', 'sund-task__complete'); 
-    //         taskControls.classList.add('sund-task__controls');
-
-    //         taskTitle.textContent = task.title;
-    //         taskDescription.textContent = task.description;
-    //         taskDueDate.textContent = task.dueDate;
-    //         taskPriority.textContent = task.priority;
-
-    //         this.allTasks.appendChild(taskDisplay);
-    //         taskDisplay.appendChild(taskComplete);
-    //         taskDisplay.appendChild(taskBody);
-    //         taskBody.appendChild(taskTitle);
-    //         taskBody.appendChild(taskDescription);
-    //         taskDisplay.appendChild(taskDueDate);
-    //         taskDisplay.appendChild(taskPriority);
-    //         taskControls.appendChild(taskEdit);
-    //         taskControls.appendChild(taskDelete);
-    //         taskDisplay.appendChild(taskControls);
-    //     });
-    //     this.taskCountDisplay.textContent = taskArray.length;
-    // }
     displayTasksInProject() {
+        // if #sund-project-display data-project-index is number (!isNaN) like data-project-index='0';
+        // we display tasks in our projects
+        // else like - data-project-index="allTasks"; we display tasks in "All", "Today", "Week", "Important", "Completed"
         if(!isNaN(document.getElementById('sund-project-display').getAttribute('data-project-index'))){
-            
             const currentProjectIndex = document.getElementById('sund-project-display').getAttribute('data-project-index');
-        
             const taskArray = Project.allProjects[currentProjectIndex].tasks;
-            
             document.getElementById('sund-add-task').style.display = 'block';
             this.displayTasks(taskArray);
         } else{
             const tasks = document.getElementById('sund-project-display').getAttribute('data-project-index');
+            // taskManager[tasks]() === taskManager.AllTasks() for example
+            // or taskManager[tasks]() === taskManager.todayTasks()
             this.displayTasks(taskManager[tasks]());
         }
         // To remember added task in project
         localStorage.setItem('allProjects', JSON.stringify(Project.allProjects));
-   
-        
     }
 
     displayTasks(tasks){
+        
         this.allTasks.innerHTML = '';
+        // Using localStorage to save Project.allProjects
+        // Storage only supports storing and retrieving strings.
+        //  If we want to save other data types, we have to convert them to strings.
+        //  For plain objects and arrays, we can use JSON.stringify().
         localStorage.setItem('allProjects', JSON.stringify(Project.allProjects));
-        tasks.forEach((task, index) => {
+        tasks.forEach((task) => {
             const taskDisplay = document.createElement('div');
             const taskBody = document.createElement('div');
             const taskTitle = document.createElement('div');
@@ -322,7 +284,6 @@ class DomManipulation {
                 taskDisplay.classList.add('task_completed');
             } 
             taskDisplay.setAttribute('data-id', task.id);
-            taskDisplay.setAttribute('data-task-index', index);
             taskDisplay.setAttribute('data-project-index', task.projectIndex);
             taskBody.classList.add('sund-task-body');
             taskTitle.classList.add('sund-task__title');
