@@ -8,13 +8,17 @@
     "watch": "webpack --watch",
     "start": "webpack --watch --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js",
-    "GithubPagesDeploy": "git subtree push --prefix dist origin gh-pages"
+    "GithubPagesDeploy": "git subtree push --prefix dist origin gh-pages",
+    "lint": "eslint ./src/js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@eslint/js": "^9.8.0",
     "css-loader": "^7.1.2",
+    "eslint": "^9.8.0",
+    "globals": "^15.9.0",
     "html-webpack-plugin": "^5.6.0",
     "style-loader": "^4.0.0",
     "webpack": "^5.93.0",

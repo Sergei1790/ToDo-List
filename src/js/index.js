@@ -16,6 +16,7 @@ if (storageAvailable("localStorage")) {
 }
 
 
+
 // If we have saved projects in localStorage we load them in our Project.allProjects array
 const storedProjects = localStorage.getItem("allProjects");
 if (storedProjects) {

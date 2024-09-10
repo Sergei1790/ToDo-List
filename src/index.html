@@ -1,125 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our ToDo List</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
-</head>
-<body>
-    <header class="sund-header">
-        <i class="fal fa-solid fa-check-double"></i>
-        Our ToDo List
-    </header>
-    <sidebar id="sund-sidebar" class="sund-sidebar">
-        <div class="sund-sidebar__title">
-            ToDo Control panel
-        </div>
-        <div class="sund-sidebar-ToDo-btns">
-            <button id="sund-tasks-show-all" class="sund__btn"><i class="fal fa-calendar-alt"></i>All Tasks</button>
-            <button id="sund-tasks-show-today" class="sund__btn"><i class="fal fa-calendar-day"></i>Today's Tasks</button>
-            <button id="sund-tasks-show-week" class="sund__btn"><i class="fal fa-calendar-week"></i>Week Tasks</button>
-            <button id="sund-tasks-show-important" class="sund__btn"><i class="fal fa-calendar-star"></i>Important Tasks</button>
-            <button id="sund-tasks-show-complete" class="sund__btn"><i class="fal fa-calendar-check"></i>Completed Tasks</button>
-        </div>
-        <div class="sund-sidebar__projects">
-            <div class="sund-todo__title">
-                <div>Projects (<span id="sund-projects-count">0</span>)</div>
-                <i class="sund-add-project fal fa-plus-circle tooltip-icon">
-                    <span class="tooltip-text">Add New Project</span>
-                </i>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Our ToDo List</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+            rel="stylesheet"
+        />
+    </head>
+    <body>
+        <header class="sund-header">
+            <i class="fal fa-solid fa-check-double"></i>
+            Our ToDo List
+        </header>
+        <sidebar id="sund-sidebar" class="sund-sidebar">
+            <div class="sund-sidebar__title">ToDo Control panel</div>
+            <div class="sund-sidebar-ToDo-btns">
+                <button id="sund-tasks-show-all" class="sund__btn"><i class="fal fa-calendar-alt"></i>All Tasks</button>
+                <button id="sund-tasks-show-today" class="sund__btn"><i class="fal fa-calendar-day"></i>Today's Tasks</button>
+                <button id="sund-tasks-show-week" class="sund__btn"><i class="fal fa-calendar-week"></i>Week Tasks</button>
+                <button id="sund-tasks-show-important" class="sund__btn"><i class="fal fa-calendar-star"></i>Important Tasks</button>
+                <button id="sund-tasks-show-complete" class="sund__btn"><i class="fal fa-calendar-check"></i>Completed Tasks</button>
             </div>
-            <div id="sund-all-projects" class="sund-all-projects"></div>
-            <button class="sund-add-project sund__btn"><i class="fal fa-tools"></i>Add project</button>
-        </div>
-    </sidebar>
-    <main class="sund-main">
-        <div id="sund-project-display" class="sund-project-display">
-            <div id="sund-project__title" class="sund-project__title"></div>
-            <div id="sund-tasks" class="sund-tasks">
+            <div class="sund-sidebar__projects">
                 <div class="sund-todo__title">
-                    <div>Tasks (<span id="sund-tasks-count">0</span>)</div>
-                    <i id="sund-add-task" class="fal fa-plus-circle tooltip-icon">
-                        <span class="tooltip-text">Add New Task</span>
+                    <div>Projects (<span id="sund-projects-count">0</span>)</div>
+                    <i class="sund-add-project fal fa-plus-circle tooltip-icon">
+                        <span class="tooltip-text">Add New Project</span>
                     </i>
                 </div>
-                <div class="sund-tasks__header">
-                    <div class="sund-task-body">Status / Title / Description</div>
-                    <div>Due Date</div>
-                    <div>Priority</div>
-                    <div>Controls</div>
+                <div id="sund-all-projects" class="sund-all-projects"></div>
+                <button class="sund-add-project sund__btn"><i class="fal fa-tools"></i>Add project</button>
+            </div>
+        </sidebar>
+        <main class="sund-main">
+            <div id="sund-project-display" class="sund-project-display">
+                <div id="sund-project__title" class="sund-project__title"></div>
+                <div id="sund-tasks" class="sund-tasks">
+                    <div class="sund-todo__title">
+                        <div>Tasks (<span id="sund-tasks-count">0</span>)</div>
+                        <i id="sund-add-task" class="fal fa-plus-circle tooltip-icon">
+                            <span class="tooltip-text">Add New Task</span>
+                        </i>
+                    </div>
+                    <div class="sund-tasks__header">
+                        <div class="sund-task-body">Status / Title / Description</div>
+                        <div>Due Date</div>
+                        <div>Priority</div>
+                        <div>Controls</div>
+                    </div>
+                    <div id="sund-tasks-all" class="sund-tasks-all">
+                        <!-- <div class="sund-task"><div class="sund-task__complete"><i class="fal fa-circle"></i></div><div class="sund-task-body"><div class="sund-task__title">asd</div><div class="sund-task__desc">asd</div></div><div class="sund-task__duedate">25-07-2024</div><div class="sund-task__priority">medium</div><div class="sund-task__controls"><i class="fal fa-edit edit-task"></i><i class="fal fa-trash-alt delete-task"></i></div></div> -->
+                    </div>
                 </div>
-                <div id="sund-tasks-all" class="sund-tasks-all">
-                    <!-- <div class="sund-task"><div class="sund-task__complete"><i class="fal fa-circle"></i></div><div class="sund-task-body"><div class="sund-task__title">asd</div><div class="sund-task__desc">asd</div></div><div class="sund-task__duedate">25-07-2024</div><div class="sund-task__priority">medium</div><div class="sund-task__controls"><i class="fal fa-edit edit-task"></i><i class="fal fa-trash-alt delete-task"></i></div></div> -->
+            </div>
+        </main>
+        <footer class="sund-footer">Created with love by SunD</footer>
+        <div id="sund-todo-modal" class="sund-todo-modal">
+            <div class="sund-modal-card">
+                <div class="sund-modal-header">
+                    <h2 id="sund-modal__title" class="sund-modal__title"></h2>
+                    <i class="fal fa-times sund-modal-close"></i>
+                </div>
+                <div class="sund-modal-content">
+                    <form id="sund-project-form" method="post">
+                        <div class="sund-form-field">
+                            <label for="sund-project-title">
+                                Title
+                                <span class="title-star">*</span>
+                            </label>
+                            <input type="text" name="sund-project-title" id="sund-project-title" />
+                            <p class="modal-title-error">Please fill out this field.</p>
+                        </div>
+                        <div class="sund-modal-btns">
+                            <button class="sund-modal-close sund-modal-close__btn" type="button">Cancel</button>
+                            <button id="sund-project-form-confirm" class="sund-modal-confirm" type="button"></button>
+                        </div>
+                    </form>
+                    <form id="sund-task-form" method="post">
+                        <div class="sund-form-field">
+                            <label for="sund-task-title">
+                                Title
+                                <span class="title-star">*</span>
+                            </label>
+                            <input type="text" name="sund-task-title" id="sund-task-title" />
+                            <p class="modal-title-error">Please fill out this field.</p>
+                        </div>
+                        <div class="sund-form-field">
+                            <label for="sund-task-desc"> Description </label>
+                            <textarea id="sund-task-desc" rows="3" cols="36" name="sund-task-desc"></textarea>
+                        </div>
+                        <div class="sund-form-field">
+                            <label for="sund-task-dueDate"> Due Date </label>
+                            <input type="date" name="sund-task-dueDate" id="sund-task-dueDate" />
+                        </div>
+                        <div class="sund-form-field">
+                            <label for="sund-task-desc"> Priority </label>
+                            <select id="sund-task-priority" name="sund-task-priority">
+                                <option value="" disabled="" selected="">How important is this task?</option>
+                                <option value="low">😴 Not important at all..</option>
+                                <option value="medium">😅 A bit important</option>
+                                <option value="high">😲 Super important!</option>
+                            </select>
+                        </div>
+                        <div class="sund-modal-btns">
+                            <button class="sund-modal-close sund-modal-close__btn" type="button">Cancel</button>
+                            <button id="sund-modal-confirm" class="sund-modal-confirm" type="button"></button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
-    </main>
-    <footer class="sund-footer">
-        Created with love by SunD
-    </footer> 
-    <div id="sund-todo-modal" class="sund-todo-modal">
-        <div class="sund-modal-card">
-            <div class="sund-modal-header">
-                <h2 id="sund-modal__title" class="sund-modal__title"></h2>
-                <i class="fal fa-times sund-modal-close"></i>
-              </div>
-            <div class="sund-modal-content">
-                <form id="sund-project-form" method="post">
-                    <div class="sund-form-field">
-                        <label for="sund-project-title">
-                            Title
-                            <span class="title-star">*</span>
-                        </label>
-                        <input type="text" name="sund-project-title" id="sund-project-title">
-                        <p class="modal-title-error">Please fill out this field.</p>
-                    </div>
-                    <div class="sund-modal-btns">
-                        <button class="sund-modal-close sund-modal-close__btn" type="button">Cancel</button>
-                        <button id="sund-project-form-confirm" class="sund-modal-confirm" type="button"></button>
-                    </div>
-                </form>
-                <form id="sund-task-form" method="post">
-                    <div class="sund-form-field">
-                        <label for="sund-task-title">
-                            Title
-                            <span class="title-star">*</span>
-                        </label>
-                        <input type="text" name="sund-task-title" id="sund-task-title">
-                        <p class="modal-title-error">Please fill out this field.</p>
-                    </div>
-                    <div class="sund-form-field">
-                        <label for="sund-task-desc">
-                            Description
-                        </label>
-                        <textarea id="sund-task-desc" rows="3" cols="36" name="sund-task-desc"></textarea>
-                    </div>
-                    <div class="sund-form-field">
-                        <label for="sund-task-dueDate">
-                            Due Date
-                        </label>
-                        <input type="date" name="sund-task-dueDate" id="sund-task-dueDate">
-                    </div>
-                    <div class="sund-form-field">
-                        <label for="sund-task-desc">
-                            Priority
-                        </label>
-                        <select id="sund-task-priority" name="sund-task-priority">
-                            <option value="" disabled="" selected="">How important is this task?</option>
-                            <option value="low">😴 Not important at all..</option>
-                            <option value="medium">😅 A bit important</option>
-                            <option value="high">😲 Super important!</option>
-                        </select>
-                    </div>
-                    <div class="sund-modal-btns">
-                        <button class="sund-modal-close sund-modal-close__btn" type="button">Cancel</button>
-                        <button id="sund-modal-confirm" class="sund-modal-confirm" type="button"></button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</body>
+    </body>
 </html>

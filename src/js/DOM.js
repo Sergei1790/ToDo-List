@@ -2,12 +2,12 @@ import {taskManager} from './tasks';
 import {Project, projectManager} from './projects';
 class DomManipulation {
     constructor() {
-        this.sidebar = document.getElementById("sund-sidebar");
+        this.sidebar = document.getElementById('sund-sidebar');
 
         this.taskMode;
         this.taskModal = document.getElementById('sund-todo-modal');
         this.taskAdd = document.getElementById('sund-add-task');
-        this.taskModalClose = document.querySelectorAll(".sund-modal-close");
+        this.taskModalClose = document.querySelectorAll('.sund-modal-close');
         this.taskModalCard = document.querySelector('.sund-modal-card');
         this.taskModalForm = document.getElementById('sund-task-form');
         this.allTasks = document.getElementById('sund-tasks-all');
@@ -19,9 +19,8 @@ class DomManipulation {
         this.tasksShowImportant = document.getElementById('sund-tasks-show-important');
         this.tasksShowComplete = document.getElementById('sund-tasks-show-complete');
 
-
         this.projectMode;
-        this.addProject = document.querySelectorAll(".sund-add-project");
+        this.addProject = document.querySelectorAll('.sund-add-project');
         this.projectModalForm = document.getElementById('sund-project-form');
         this.projectCountDisplay = document.getElementById('sund-projects-count');
         this.allProjects = document.getElementById('sund-all-projects');
@@ -32,18 +31,16 @@ class DomManipulation {
     }
 
     init() {
-        
         this.sidebar.addEventListener('click', (event) => {
             if (event.target.closest('.sund__btn')) {
                 // Remove 'active' class from all buttons
-                document.querySelectorAll(".sund__btn").forEach(button => {
+                document.querySelectorAll('.sund__btn').forEach((button) => {
                     button.classList.remove('active');
                 });
                 // Add 'active' class to the clicked button
                 event.target.closest('.sund__btn').classList.add('active');
             }
         });
-       
 
         // TASKS
         this.taskAdd.addEventListener('click', () => {
@@ -55,7 +52,6 @@ class DomManipulation {
             this.toggleModal(true);
         });
 
-  
         this.taskModal.addEventListener('click', (event) => {
             if (!this.taskModalCard.contains(event.target)) {
                 this.clearForm(this.taskModalForm, this.projectModalForm);
@@ -63,17 +59,17 @@ class DomManipulation {
             }
         });
 
-        this.taskModalClose.forEach(taskModalCloseEl => {
+        this.taskModalClose.forEach((taskModalCloseEl) => {
             taskModalCloseEl.addEventListener('click', () => {
                 this.clearForm(this.taskModalForm, this.projectModalForm);
-                this.toggleModal(false)
+                this.toggleModal(false);
             });
         });
 
         this.confirmTask.addEventListener('click', () => {
             console.log(this.taskMode);
             // If we did not add title of task in modal throw error
-            if(document.getElementById('sund-task-title').value !== ''){
+            if (document.getElementById('sund-task-title').value !== '') {
                 if (this.taskMode === 'create') {
                     taskManager.createTask();
                 } else {
@@ -83,7 +79,7 @@ class DomManipulation {
                 this.clearForm(this.taskModalForm);
                 this.toggleModal(false);
                 this.taskModalForm.querySelector('.modal-title-error').style.display = 'none';
-            } else{
+            } else {
                 this.taskModalForm.querySelector('.modal-title-error').style.display = 'block';
             }
         });
@@ -97,7 +93,7 @@ class DomManipulation {
                 this.confirmTask.textContent = 'Confirm';
                 this.toggleModal(true);
                 taskManager.editTask(event);
-            } 
+            }
             if (event.target.classList.contains('delete-task')) {
                 taskManager.deleteTask(event);
                 this.displayTasksInProject();
@@ -114,32 +110,31 @@ class DomManipulation {
             // or
             // taskManager.allTasks();
             // this.displayTasksInProject();
-        })
+        });
         this.tasksShowToday.addEventListener('click', () => {
             document.getElementById('sund-project__title').textContent = 'Today Tasks';
             document.getElementById('sund-add-task').style.display = 'none';
             this.displayTasks(taskManager.todayTasks());
-        })
+        });
         this.tasksShowWeek.addEventListener('click', () => {
             document.getElementById('sund-project__title').textContent = 'Week Tasks';
             document.getElementById('sund-add-task').style.display = 'none';
             this.displayTasks(taskManager.weekTasks());
-        })
+        });
         this.tasksShowImportant.addEventListener('click', () => {
             document.getElementById('sund-project__title').textContent = 'Important Tasks';
             document.getElementById('sund-add-task').style.display = 'none';
             this.displayTasks(taskManager.importantTasks());
-        })
+        });
         this.tasksShowComplete.addEventListener('click', () => {
             document.getElementById('sund-project__title').textContent = 'Completed Tasks';
             document.getElementById('sund-add-task').style.display = 'none';
-            this.displayTasks(taskManager.completedTasks());    
-        })
-
+            this.displayTasks(taskManager.completedTasks());
+        });
 
         // PROJECTS
 
-        this.addProject.forEach(addProjectEl => {
+        this.addProject.forEach((addProjectEl) => {
             addProjectEl.addEventListener('click', () => {
                 this.projectMode = 'create';
                 document.getElementById('sund-modal__title').textContent = 'Add Project';
@@ -173,7 +168,7 @@ class DomManipulation {
         });
 
         this.confirmProject.addEventListener('click', () => {
-            if(document.getElementById('sund-project-title').value !== ''){
+            if (document.getElementById('sund-project-title').value !== '') {
                 if (this.projectMode === 'create') {
                     projectManager.createProject();
                 } else {
@@ -183,11 +178,10 @@ class DomManipulation {
                 this.displayProjects();
                 this.clearForm(this.projectModalForm);
                 this.toggleModal(false);
-            } else{
+            } else {
                 this.projectModalForm.querySelector('.modal-title-error').style.display = 'block';
             }
         });
-        
     }
 
     toggleModal(show) {
@@ -199,13 +193,13 @@ class DomManipulation {
     // this.clearForm(this.taskModalForm, this.projectModalForm);
     // or this.clearForm(this.projectModalForm);
     clearForm(...modalForms) {
-        modalForms.forEach(modalForm => {
+        modalForms.forEach((modalForm) => {
             // reset clears <form> element, only can be used on <form>, not <div> or other
             modalForm.reset();
             modalForm.querySelector('.modal-title-error').style.display = 'none';
         });
     }
-    displayProjects(){
+    displayProjects() {
         this.allProjects.innerHTML = '';
         const allProjects = Project.allProjects;
 
@@ -214,7 +208,7 @@ class DomManipulation {
         //  If we want to save other data types, we have to convert them to strings.
         //  For plain objects and arrays, we can use JSON.stringify().
         localStorage.setItem('allProjects', JSON.stringify(Project.allProjects));
-        console.log(`In Projects ${localStorage.getItem("allProjects")}`);
+        console.log(`In Projects ${localStorage.getItem('allProjects')}`);
         // Index is inbuilt, so we can get number of el in array
         allProjects.forEach((project, index) => {
             const projectDisplay = document.createElement('button');
@@ -244,12 +238,12 @@ class DomManipulation {
         // if #sund-project-display data-project-index is number (!isNaN) like data-project-index='0';
         // we display tasks in our projects
         // else like - data-project-index="allTasks"; we display tasks in "All", "Today", "Week", "Important", "Completed"
-        if(!isNaN(document.getElementById('sund-project-display').getAttribute('data-project-index'))){
+        if (!isNaN(document.getElementById('sund-project-display').getAttribute('data-project-index'))) {
             const currentProjectIndex = document.getElementById('sund-project-display').getAttribute('data-project-index');
             const taskArray = Project.allProjects[currentProjectIndex].tasks;
             document.getElementById('sund-add-task').style.display = 'block';
             this.displayTasks(taskArray);
-        } else{
+        } else {
             const tasks = document.getElementById('sund-project-display').getAttribute('data-project-index');
             // taskManager[tasks]() === taskManager.AllTasks() for example
             // or taskManager[tasks]() === taskManager.todayTasks()
@@ -259,8 +253,7 @@ class DomManipulation {
         localStorage.setItem('allProjects', JSON.stringify(Project.allProjects));
     }
 
-    displayTasks(tasks){
-        
+    displayTasks(tasks) {
         this.allTasks.innerHTML = '';
         // Using localStorage to save Project.allProjects
         // Storage only supports storing and retrieving strings.
@@ -280,9 +273,9 @@ class DomManipulation {
             const taskDelete = document.createElement('i');
 
             taskDisplay.classList.add('sund-task');
-            if(task.completed){
+            if (task.completed) {
                 taskDisplay.classList.add('task_completed');
-            } 
+            }
             taskDisplay.setAttribute('data-id', task.id);
             taskDisplay.setAttribute('data-project-index', task.projectIndex);
             taskBody.classList.add('sund-task-body');
@@ -292,7 +285,7 @@ class DomManipulation {
             taskPriority.classList.add('sund-task__priority');
             taskEdit.classList.add('fal', 'fa-edit', 'edit-task');
             taskDelete.classList.add('fal', 'fa-trash-alt', 'delete-task');
-            taskComplete.classList.add('fal', 'fa-circle', 'sund-task__complete'); 
+            taskComplete.classList.add('fal', 'fa-circle', 'sund-task__complete');
             taskControls.classList.add('sund-task__controls');
 
             taskTitle.textContent = task.title;
@@ -316,4 +309,4 @@ class DomManipulation {
 }
 
 const domManipulation = new DomManipulation();
-export { domManipulation };
+export {domManipulation};
